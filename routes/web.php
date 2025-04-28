@@ -1,7 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+$base = base_path('routes/features/web/');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+require($base . 'landing.php');
+require($base . 'app.php');

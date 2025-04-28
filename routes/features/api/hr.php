@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\Hr\EmployeeController;
 use App\Http\Controllers\Api\Hr\PositionController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('hr')->as('hr.')->group(function () {
+Route::prefix('hr')->as('hr.')->middleware('auth')->group(function () {
 
     Route::prefix('divisions')->as('divisions.')->group(function () {
 

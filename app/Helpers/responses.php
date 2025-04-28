@@ -69,9 +69,9 @@ if (!function_exists('pagination')) {
         return [
             'count'         => $data->count(),
             'total'         => $data->total(),
-            'currentPage'   => $currentPage,
-            'perPage'       => $data->perPage(),
-            'totalPage'     => $totalPage,
+            'current_page'  => $currentPage,
+            'per_page'      => $data->perPage(),
+            'total_page'    => $totalPage,
             'pages'         => [
                 'next'      => $next,
                 'previous'  => $prev

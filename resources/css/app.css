@@ -8,6 +8,21 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: "Noto Sans", sans-serif;
+    --color-primary: #EC1D21;
+    --color-primary-100: #FEE0D1;
+    --color-primary-200: #FDB9A4;
+    --color-primary-300: #F98A76;
+    --color-primary-400: #F35E53;
+    --color-primary-500: #EC1D21;
+    --color-primary-600: #CA1528;
+    --color-primary-700: #A90E2C;
+    --color-primary-800: #88092D;
+    --color-primary-900: #71052D;
+}
+
+.varela-round {
+    font-family: "Varela Round", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }

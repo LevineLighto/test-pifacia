@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\Account\RoleController;
 use App\Http\Controllers\Api\Account\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('accounts')->as('accounts.')->group(function () {
+Route::prefix('accounts')->as('accounts.')->middleware('auth')->group(function () {
 
     Route::prefix('users')->as('users.')->group(function() {
 

@@ -1,0 +1,1 @@
+export { base_url, storage_url } from "./functions"

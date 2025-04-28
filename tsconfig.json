@@ -13,7 +13,10 @@
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "noImplicitAny": false,
-        "paths": {}
+        "paths": {
+            "@/auth/*"  : ["./resources/js/modules/auth/*"],
+            "@/*"       : ["./resources/js/*"],
+        }
     },
     "include": [
         "resources/js/**/*.ts",
