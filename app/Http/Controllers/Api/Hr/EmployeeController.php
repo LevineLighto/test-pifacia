@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Hr;
 
+use App\Constants\Auth\PermissionCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Hr\CreateEmployeeRequest;
 use App\Http\Requests\Hr\UpdateEmployeeRequest;
@@ -11,6 +12,41 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (!has_permissions(PermissionCode::EMPLOYEES_ALL, PermissionCode::EMPLOYEES_READ)) {
+                error('Unauthorized', 401);
+            }
+
+            return $next($request);
+        })->only(['get', 'find']);
+
+        $this->middleware(function ($request, $next) {
+            if (!has_permissions(PermissionCode::EMPLOYEES_ALL, PermissionCode::EMPLOYEES_CREATE)) {
+                error('Unauthorized', 401);
+            }
+
+            return $next($request);
+        })->only(['create']);
+
+        $this->middleware(function ($request, $next) {
+            if (!has_permissions(PermissionCode::EMPLOYEES_ALL, PermissionCode::EMPLOYEES_UPDATE)) {
+                error('Unauthorized', 401);
+            }
+
+            return $next($request);
+        })->only(['update']);
+
+        $this->middleware(function ($request, $next) {
+            if (!has_permissions(PermissionCode::EMPLOYEES_ALL, PermissionCode::EMPLOYEES_UPDATE)) {
+                error('Unauthorized', 401);
+            }
+
+            return $next($request);
+        })->only(['delete']);
+    }
+
     public function get(Request $request)
     {
         $employees = Employee::filter($request)->paginate($request->limit ?: 50);

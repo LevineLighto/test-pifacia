@@ -4,4 +4,5 @@ export type PageProps<T extends Record<string, any> = Record<string, unknown>> =
     csrf_token  : string
     user        : User | null
     route       : string
+    permissions : string[] | null
 }

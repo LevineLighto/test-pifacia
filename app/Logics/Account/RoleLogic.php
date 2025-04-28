@@ -161,6 +161,8 @@ class RoleLogic
             $this->role->setActivityPropertyAttributes(ActivityAction::UPDATE)
                 ->saveActivity("Assign permissions for role {$this->role->name} [{$this->role->id}]");
 
+            Permission::cache($this->role->id);
+
             DB::commit();
             return success();
             

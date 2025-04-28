@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Account\Permission;
 use App\Models\Account\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -69,5 +70,26 @@ if (!function_exists('parse_date')) {
         }
 
         return Carbon::createFromFormat($format, $date);
+    }
+}
+
+if (!function_exists('has_permissions')) {
+    function has_permissions (string ...$permissions) : bool {
+        $user = auth_user();
+        if (empty($user)) {
+            return false;
+        }
+
+        $grantedPermissions = Permission::getForRole($user->role_id);
+        if (empty($grantedPermissions)) {
+            return false;
+        }
+
+        // If requested permission is granted, it won't appear here
+        $difference = array_diff($permissions, $grantedPermissions);
+
+        // So, if there is a change in number, the user has at least
+        // one requested permission
+        return count($difference) != count($permissions);
     }
 }

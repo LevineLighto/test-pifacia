@@ -8,6 +8,8 @@ import { Link, usePage } from "@inertiajs/react";
 import { route } from "ziggy-js";
 import { SidebarItemProps } from "./props";
 import { PageProps } from "@/types";
+import { SidebarItems } from "./constants";
+import { useHasPermission } from "@/hooks/permission";
 
 export const Sidebar : FC = () => {
     const { open } = useContext(SidebarContext) as SidebarContextType
@@ -29,42 +31,22 @@ export const Sidebar : FC = () => {
                     />
                 </Link>
             </section>
-            <section className="mb-3">
-                <SidebarItem
-                    label="Dashboard"
-                    icon={Home}
-                    route="app.dashboard.index"
-                />
-            </section>
-            <section className="mb-3">
-                <SidebarItem
-                    label="Users"
-                    icon={User}
-                    route="app.dashboard.index"
-                />
-                <SidebarItem
-                    label="Roles"
-                    icon={Shield}
-                    route="app.dashboard.index"
-                />
-            </section>
-            <section className="mb-3">
-                <SidebarItem
-                    label="Employees"
-                    icon={Users}
-                    route="app.dashboard.index"
-                />
-                <SidebarItem
-                    label="Position"
-                    icon={Briefcase}
-                    route="app.dashboard.index"
-                />
-                <SidebarItem
-                    label="Divisions"
-                    icon={Columns}
-                    route="app.dashboard.index"
-                />
-            </section>
+            { SidebarItems.map((section, sectionIndex) => (
+                <section
+                    key={`sidebar-section-${sectionIndex}`}
+                    className="mb-3"
+                >
+                    { section.map((item, index) => (
+                        <SidebarItem
+                            key={`sidebar-item-${sectionIndex}-${index}`}
+                            label={item.label}
+                            icon={item.icon}
+                            route={item.route}
+                            permissions={item.permissions}
+                        />
+                    )) }
+                </section>
+            )) }
         </aside>
     )
 }
@@ -72,18 +54,27 @@ export const Sidebar : FC = () => {
 const SidebarItem : FC<SidebarItemProps> = ({
     label,
     icon : Icon,
-    route: routeName
+    route: routeName,
+    permissions = []
 }) => {
     const { props } = usePage<PageProps>()
     const { open } = useContext(SidebarContext) as SidebarContextType
+
+    const allowed = useHasPermission(permissions)
+
+    if (!allowed) {
+        return (
+            <></>
+        )
+    }
 
     return (
         <Link
             href={route(routeName)}
             className={`${
-                "flex gap-2 items-center py-3"
+                "varela-round flex gap-3 items-center py-3"
             } ${
-                routeName = props.route ? 'text-primary' : 'text-slate-500 hover:text-primary'
+                routeName == props.route ? 'text-primary' : 'text-slate-500 hover:text-primary'
             } ${
                 open ? 'justify-start' : 'justify-center'
             }`}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Account\Permission;
 use App\Parsers\Account\UserParser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,11 +38,14 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = auth_user();
+
         return [
             ...parent::share($request),
             'csrf_token'    => csrf_token(),
-            'user'          => UserParser::brief(auth_user()),
+            'user'          => UserParser::brief($user),
             'route'         => Route::currentRouteName(),
+            'permissions'   => Permission::getForRole($user?->role_id)
         ];
     }
 }

@@ -2,10 +2,10 @@ import { AppLayout } from "@/components/layouts";
 import { Head } from "@inertiajs/react";
 import { FC } from "react";
 
-const DashboardPage : FC = () => (
+const DivisionsPage : FC = () => (
     <>
         <Head
-            title="Dashboard"
+            title="Divisions"
         />
         <AppLayout>
             Awoo
@@ -13,4 +13,4 @@ const DashboardPage : FC = () => (
     </>
 )
 
-export default DashboardPage
+export default DivisionsPage
