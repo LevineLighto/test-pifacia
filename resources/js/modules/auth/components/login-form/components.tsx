@@ -8,6 +8,7 @@ import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { toast } from "react-toastify";
 import { route } from "ziggy-js";
+import { Loader } from "react-feather";
 
 export const LoginForm : FC = () => {
     const [form, setForm] = useState<LoginRequest>({
@@ -60,6 +61,7 @@ export const LoginForm : FC = () => {
             <Form onSubmit={handleSubmit}>
                 <Input
                     required
+                    disabled={loading}
                     name="email"
                     label="Email"
                     type="email"
@@ -68,6 +70,7 @@ export const LoginForm : FC = () => {
                 />
                 <Input
                     required
+                    disabled={loading}
                     name="password"
                     label="Password"
                     type="password"
@@ -75,8 +78,15 @@ export const LoginForm : FC = () => {
                 />
                 <Button
                     type="submit"
-                    className="d-block w-full my-7"
+                    className="block w-full my-7"
+                    disabled={loading}
                 >
+                    { loading ? (
+                        <>
+                            <Loader className="inline-block"/>
+                            {' '}
+                        </>
+                    ) : (<></>) }
                     Sign In
                 </Button>
             </Form>

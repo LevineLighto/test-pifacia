@@ -1,4 +1,4 @@
-import { ErrorMsg } from "@/components/misc/error-msg"
+import { ErrorMsg } from "@/components/misc"
 import { Component, PropsWithChildren } from "react"
 
 export class ErrorBoundary extends Component<PropsWithChildren> {

@@ -19,3 +19,7 @@ export const labelClasses = {
     color   : 'text-slate-900',
     display : 'block',
 }
+
+export const requiredClasses = {
+    color : 'text-primary'
+}

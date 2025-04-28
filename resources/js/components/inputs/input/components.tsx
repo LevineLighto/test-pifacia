@@ -1,6 +1,6 @@
 import { ChangeEventHandler, FC } from "react";
 import { InputProps } from "./props";
-import { containerClasses, inputClasses, labelClasses } from "./classes";
+import { containerClasses, inputClasses, labelClasses, requiredClasses } from "./classes";
 
 export const Input : FC<InputProps> = ({
     label,
@@ -9,6 +9,7 @@ export const Input : FC<InputProps> = ({
     onChange,
     className = '',
     containerClassName = '',
+    required = false,
     ...props
 }) => {
     const inputId = `input-${name}-${id}`
@@ -49,6 +50,13 @@ export const Input : FC<InputProps> = ({
                     }`}
                 >
                     { label }
+                    { required ? (
+                        <span 
+                            className={`${
+                                requiredClasses.color
+                            }`}
+                        > *</span>
+                    ) : (<></>) }
                 </label>
             ) : (<></>) }
             <input
@@ -74,6 +82,7 @@ export const Input : FC<InputProps> = ({
                 id={inputId}
                 name={name}
                 onChange={handleChange}
+                required={required}
                 {...props}
             />
         </div>

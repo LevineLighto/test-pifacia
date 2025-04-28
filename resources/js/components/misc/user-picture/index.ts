@@ -1,0 +1,1 @@
+export { UserPicture } from "./components"
