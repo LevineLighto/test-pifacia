@@ -111,6 +111,11 @@ class UserLogic
 
             $user = auth_user();
 
+            $user = auth_user();
+            if ($this->user->id == $user->id) {
+                error('Unable to delete your own self');
+            }
+
             $this->user->setOldActivityPropertyAttributes(ActivityAction::DELETE);
 
             $this->user->update([

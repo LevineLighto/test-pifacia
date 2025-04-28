@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Constants\Auth\PermissionCode;
 use App\Models\Account\Permission;
 use App\Models\Account\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -70,19 +70,37 @@ class RolePermissionSeeder extends Seeder
     private function getPermissions() : array
     {
         return [
-            ['name' => 'All Users Permissions', 'code' => 'users.*', 'created_at' => now()],
-            ['name' => 'Read Users', 'code' => 'users.read', 'created_at' => now()],
-            ['name' => 'Create Users', 'code' => 'users.create', 'created_at' => now()],
-            ['name' => 'Update Users', 'code' => 'users.update', 'created_at' => now()],
-            ['name' => 'Delete Users', 'code' => 'users.delete', 'created_at' => now()],
+            ['name' => 'All Users Permissions', 'code' => PermissionCode::USERS_ALL, 'created_at' => now()],
+            ['name' => 'Read Users', 'code' => PermissionCode::USERS_READ, 'created_at' => now()],
+            ['name' => 'Create Users', 'code' => PermissionCode::USERS_CREATE, 'created_at' => now()],
+            ['name' => 'Update Users', 'code' => PermissionCode::USERS_UPDATE, 'created_at' => now()],
+            ['name' => 'Delete Users', 'code' => PermissionCode::USERS_DELETE, 'created_at' => now()],
             
-            ['name' => 'All Roles Permissions', 'code' => 'roles.*', 'created_at' => now()],
-            ['name' => 'Read Roles', 'code' => 'roles.read', 'created_at' => now()],
-            ['name' => 'Create Roles', 'code' => 'roles.create', 'created_at' => now()],
-            ['name' => 'Update Roles', 'code' => 'roles.update', 'created_at' => now()],
-            ['name' => 'Delete Roles', 'code' => 'roles.delete', 'created_at' => now()],
-
-            ['name' => 'Assign Permissions', 'code' => 'permissions.assign', 'created_at' => now()],
+            ['name' => 'All Roles Permissions', 'code' => PermissionCode::ROLES_ALL, 'created_at' => now()],
+            ['name' => 'Read Roles', 'code' => PermissionCode::ROLES_READ, 'created_at' => now()],
+            ['name' => 'Create Roles', 'code' => PermissionCode::ROLES_CREATE, 'created_at' => now()],
+            ['name' => 'Update Roles', 'code' => PermissionCode::ROLES_UPDATE, 'created_at' => now()],
+            ['name' => 'Delete Roles', 'code' => PermissionCode::ROLES_DELETE, 'created_at' => now()],
+            
+            ['name' => 'Assign Permissions', 'code' => PermissionCode::PERMISSION_ASSIGN, 'created_at' => now()],
+            
+            ['name' => 'All Divisions Permissions', 'code' => PermissionCode::DIVISIONS_ALL, 'created_at' => now()],
+            ['name' => 'Read Divisions', 'code' => PermissionCode::DIVISIONS_READ, 'created_at' => now()],
+            ['name' => 'Create Divisions', 'code' => PermissionCode::DIVISIONS_CREATE, 'created_at' => now()],
+            ['name' => 'Update Divisions', 'code' => PermissionCode::DIVISIONS_UPDATE, 'created_at' => now()],
+            ['name' => 'Delete Divisions', 'code' => PermissionCode::DIVISIONS_DELETE, 'created_at' => now()],
+            
+            ['name' => 'All Positions Permissions', 'code' => PermissionCode::POSITIONS_ALL, 'created_at' => now()],
+            ['name' => 'Read Positions', 'code' => PermissionCode::POSITIONS_READ, 'created_at' => now()],
+            ['name' => 'Create Positions', 'code' => PermissionCode::POSITIONS_CREATE, 'created_at' => now()],
+            ['name' => 'Update Positions', 'code' => PermissionCode::POSITIONS_UPDATE, 'created_at' => now()],
+            ['name' => 'Delete Positions', 'code' => PermissionCode::POSITIONS_DELETE, 'created_at' => now()],
+            
+            ['name' => 'All Employees Permissions', 'code' => PermissionCode::EMPLOYEES_ALL, 'created_at' => now()],
+            ['name' => 'Read Employees', 'code' => PermissionCode::EMPLOYEES_READ, 'created_at' => now()],
+            ['name' => 'Create Employees', 'code' => PermissionCode::EMPLOYEES_CREATE, 'created_at' => now()],
+            ['name' => 'Update Employees', 'code' => PermissionCode::EMPLOYEES_UPDATE, 'created_at' => now()],
+            ['name' => 'Delete Employees', 'code' => PermissionCode::EMPLOYEES_DELETE, 'created_at' => now()],
         ];
     }
 }

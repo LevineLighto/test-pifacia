@@ -11,5 +11,9 @@ class ActivityType extends BaseCodeConstant
     const ROLE      = 'role';
     const PERMISSION= 'permission';
 
+    const HR        = 'hr';
+    const DIVISION  = 'division';
+    const POSITION  = 'position';
+    const EMPLOYEE  = 'employee';
 
 }
