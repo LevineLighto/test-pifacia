@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Constants\BaseCodeConstant;
+
+class {{ class }} extends BaseCodeConstant
+{
+    const DEFAULT = 'default';
+
+    const OPTION = [
+        self::DEFAULT,
+    ];
+
+}

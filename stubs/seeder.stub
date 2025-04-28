@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class {{ class }} extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $data = $this->getData();
+    }
+
+
+    private function getData() : array
+    {
+        return [];
+    }
+}

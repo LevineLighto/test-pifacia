@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Parsers\BaseParser;
+
+class {{ class }} extends BaseParser
+{
+    public static function first($data) : array | null
+    {
+        return parent::first($data);
+    }
+}

@@ -1,0 +1,43 @@
+<?php
+
+namespace {{ namespace }};
+
+{{ factoryImport }}
+use App\Models\BaseModel;
+use Illuminate\Http\Request;
+
+class {{ class }} extends BaseModel
+{
+    {{ factory }}
+    // use Has{{ class }}Activity;
+
+    protected $guarded = ['id'];
+    
+    // public $parser = {{ class }}Parser::class;
+
+
+    /* --- Mutators, Accessors, & Cast --- */
+
+    protected function casts(): array
+    {
+        return [
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ];
+    }
+
+
+    /* --- Scopes --- */
+
+    public function scopeFilter($query, Request $request)
+    {
+        if ($this->hasSearch($request)) {
+            $query->where(function ($query) use ($request) {
+                $query->where('name', 'ILIKE', "%{$request->search}%");
+            });
+        }
+
+        return $query;
+    }
+}
