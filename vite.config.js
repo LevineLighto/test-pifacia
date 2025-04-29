@@ -17,8 +17,9 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '@/auth' : path.resolve(__dirname, './resources/js/modules/auth/'),
-            '@' : path.resolve(__dirname, './resources/js/'),
+            '@/account' : path.resolve(__dirname, './resources/js/modules/account/'),
+            '@/auth'    : path.resolve(__dirname, './resources/js/modules/auth/'),
+            '@'         : path.resolve(__dirname, './resources/js/'),
         }
     }
 });

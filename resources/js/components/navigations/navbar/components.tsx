@@ -27,7 +27,7 @@ export const Navbar : FC = () => {
     }, [])
 
     return (
-        <nav className="relative flex justify-between items-center bg-white px-6 py-3 border-b border-b-slate-100">
+        <nav className="relative flex justify-between items-center bg-white px-6 py-3 border-b border-b-slate-100 z-1000">
             <Menu
                 className="cursor-pointer"
                 onClick={sidebarToggle}

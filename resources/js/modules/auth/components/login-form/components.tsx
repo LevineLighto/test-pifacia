@@ -2,7 +2,7 @@ import { Button } from "@/components/buttons";
 import { Input, InputChangeHandler } from "@/components/inputs";
 import { FC, FormEventHandler, useState } from "react";
 import { LoginRequest } from "../../types";
-import { Form } from "@/components/forms/components";
+import { Form } from "@/components/forms";
 import { Login } from "@/auth/functions";
 import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";

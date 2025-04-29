@@ -25,6 +25,10 @@ class SandboxCommand extends Command
      */
     public function handle()
     {
-        //
+        $granted    = ['a', 'b', 'c'];
+        $requested  = ['a', 'b', 'c', 'd', 'e', 'f'];
+        $difference = array_diff($requested, $granted);
+
+        $this->info(json_encode([ count($requested), count($difference) ]));
     }
 }

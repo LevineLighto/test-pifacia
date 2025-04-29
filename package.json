@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.1.4",
+        "react-datepicker": "^8.3.0",
         "react-feather": "^2.0.10",
         "react-toastify": "^11.0.5",
         "swr": "^2.3.3",

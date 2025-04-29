@@ -4,7 +4,7 @@ import { objectToUrl, SwrFetcher } from "@/functions/fetch"
 import { useMemo } from "react"
 import { default as useSWR } from "swr"
 
-export const useSwr = (
+export const useSwr = <Data = any> (
     url     : string,
     filter  : Record<string, any> | false = {},
     refreshOnInterval : boolean = false
@@ -21,7 +21,7 @@ export const useSwr = (
         return objectToUrl(url as string, filter)
     }, [url, filter])
 
-    return useSWR(target, SwrFetcher, {
+    return useSWR(target, SwrFetcher<Data>, {
         shouldRetryOnError: false,
         refreshInterval: (data) => {
             if (!refreshOnInterval || data?.status.code != 200) {

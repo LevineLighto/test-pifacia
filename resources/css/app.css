@@ -7,6 +7,8 @@
 @source '../**/*.ts';
 @source '../**/*.js';
 
+@import "react-datepicker/dist/react-datepicker.css";
+
 @theme {
     --font-sans: "Noto Sans", sans-serif;
     --color-primary: #EC1D21;
@@ -19,10 +21,118 @@
     --color-primary-700: #A90E2C;
     --color-primary-800: #88092D;
     --color-primary-900: #71052D;
+
+    --spacing: .25rem;
 }
 
 .varela-round {
     font-family: "Varela Round", sans-serif;
     font-weight: 400;
     font-style: normal;
+}
+
+.react-datepicker-wrapper {
+    @apply w-full;
+}
+
+.react-datepicker {
+    font-size: 1rem;
+    font-family: "Noto Sans", sans-serif;
+
+    @apply text-slate-900 border-slate-200 rounded-xl overflow-hidden
+}
+
+.react-datepicker__triangle {
+    display: none;
+}
+
+
+.react-datepicker__day, .react-datepicker__day-name {
+    width: 2rem;
+    line-height: 2rem;
+    margin: .25rem;
+    font-size: 1rem;
+
+    @apply text-slate-900 rounded-full hover:!rounded-full;
+}
+
+.react-datepicker__day {
+    @apply hover:!bg-primary-100;
+}
+
+.react-datepicker__day--outside-month {
+    @apply text-slate-300;
+}
+
+.react-datepicker__day--keyboard-selected {
+    @apply text-white bg-primary hover:!bg-primary;
+}
+
+.react-datepicker__header {
+    @apply px-4 pt-3 pb-1 bg-white border-b-slate-100;
+
+    .react-datepicker__current-month {
+        font-family: "Varela Round", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 1rem;
+
+        @apply py-1 text-slate-900;
+    }
+
+    .react-datepicker__day-name {
+        font-size: .875rem;
+        font-family: "Varela Round", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        
+        @apply text-primary;
+    }
+}
+
+.react-datepicker__navigation {
+    top: 0;
+
+    @apply mx-4 my-3;
+    
+    .react-datepicker__navigation-icon::before {
+        @apply border-slate-200
+    }
+
+    &:hover .react-datepicker__navigation-icon::before{
+        @apply border-primary
+    }
+}
+
+.react-datepicker__navigation--previous {
+    left: 0;
+}
+
+.react-datepicker__navigation--next {
+    right: 0;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+
+    tr {
+        &:nth-child(odd) {
+            td, th {
+                @apply bg-white;
+            }
+        }
+
+        &:nth-child(even) {
+            td, th {
+                @apply bg-slate-50;
+            }
+        }
+
+        @apply border-b border-b-slate-100;
+
+        th, td {
+            @apply px-4 py-3;
+        }
+    }
 }

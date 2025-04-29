@@ -6,14 +6,14 @@ export const Form : FC<ComponentPropsWithRef<'form'>> = ({
     onSubmit,
     ...props
 }) => {
-    const handleSubmit : FormEventHandler<HTMLFormElement> = useCallback((event) => {
+    const handleSubmit : FormEventHandler<HTMLFormElement> = (event) => {
         if (typeof onSubmit != 'function') {
             return
         }
 
         event.preventDefault()
         onSubmit(event)
-    }, [onSubmit])
+    }
 
     return (
         <form

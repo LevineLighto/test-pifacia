@@ -7,7 +7,7 @@ export const AppLayout : FC<PropsWithChildren> = ({ children }) => (
             <Sidebar/>
             <section className="grow">
                 <Navbar/>
-                <main>
+                <main className="p-5">
                     { children }
                 </main>
             </section>

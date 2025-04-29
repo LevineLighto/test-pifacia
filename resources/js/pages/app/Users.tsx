@@ -8,7 +8,7 @@ const UsersPage : FC = () => (
             title="Users"
         />
         <AppLayout>
-            Awoo
+            
         </AppLayout>
     </>
 )

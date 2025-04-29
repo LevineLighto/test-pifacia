@@ -105,6 +105,10 @@ if (!function_exists('parse_array')) {
             return null;
         }
 
+        if (empty($data[0])) {
+            return null;
+        }
+
         if (!is_object($data[0])) {
             return $data;
         }
@@ -129,6 +133,10 @@ if (!function_exists('parse_object')) {
 
         if ($data instanceof Collection) {
             $firstItem = $data->first();
+        }
+
+        if (empty($firstItem)) {
+            return null;
         }
 
         if (property_exists($firstItem, 'parser')) {

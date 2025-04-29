@@ -41,12 +41,17 @@ class Role extends BaseModel
         if ($this->hasSearch($request)) {
             $query->where(function ($query) use ($request) {
                 $query->where('name', 'ILIKE', "%{$request->search}%")
-                    ->where('code', 'ILIKE', "%{$request->search}%");
+                    ->orWhere('code', 'ILIKE', "%{$request->search}%");
             });
         }
 
         if (isset($request->is_active)) {
             $query->where('is_active', $request->is_active);
+        }
+
+        if (!empty($request->sort_by)) {
+            $direction = !empty($request->sort_dir) ? $request->sort_dir : 'ASC';
+            $query->orderBy($request->sort_by, $direction);
         }
 
         return $query;
