@@ -4,7 +4,7 @@ import { route } from "ziggy-js";
 
 export const CreatePosition = (form: PositionRequest, csrf_token: string) => {
     return POST<Position>({
-        url         : route('hr.divisions.create'),
+        url         : route('hr.positions.create'),
         data        : form,
         csrf_token  : csrf_token,
     })
@@ -12,7 +12,7 @@ export const CreatePosition = (form: PositionRequest, csrf_token: string) => {
 
 export const UpdatePosition = (id: string, form: PositionRequest, csrf_token: string) => {
     return PUT<Position>({
-        url         : route('hr.divisions.update', id),
+        url         : route('hr.positions.update', id),
         data        : form,
         csrf_token  : csrf_token,
     })
@@ -20,7 +20,7 @@ export const UpdatePosition = (id: string, form: PositionRequest, csrf_token: st
 
 export const DeletePosition = (id: string, csrf_token: string) => {
     return DELETE({
-        url         : route('hr.divisions.delete', id),
+        url         : route('hr.positions.delete', id),
         csrf_token  : csrf_token,
     })
 }

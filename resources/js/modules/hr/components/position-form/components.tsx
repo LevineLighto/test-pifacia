@@ -1,15 +1,15 @@
 'use client'
 
 import { FC, useCallback, useContext, useEffect, useState } from "react";
-import { DivisionFormContext } from "./contexts";
-import { DivisionFormContextType } from "./types";
+import { PositionFormContext } from "./contexts";
+import { PositionFormContextType } from "./types";
 import { Offcanvas } from "@/components/offcanvas";
 import { Form } from "@/components/forms";
 import { Checkbox, Input, InputChangeHandler } from "@/components/inputs";
 import { Button } from "@/components/buttons";
-import { CreateDivision, UpdateDivision } from "@/hr/functions/requests";
+import { CreatePosition, UpdatePosition } from "@/hr/functions/requests";
 import { Response } from "@/functions/fetch";
-import { Division } from "@/hr/types";
+import { Position } from "@/hr/types";
 import { toast } from "react-toastify";
 import { Loader } from "react-feather";
 import { usePage } from "@inertiajs/react";
@@ -17,8 +17,9 @@ import { PageProps } from "@/types";
 import { useHasPermission } from "@/hooks/permission";
 import { ROLES_GROUP_CREATE, ROLES_GROUP_UPDATE } from "@/constants/permissions";
 import { ScopeInput } from "../scope-input";
+import { DivisionSelect } from "../division-select";
 
-export const DivisionForm : FC = () => {
+export const PositionForm : FC = () => {
     const canCreate = useHasPermission(ROLES_GROUP_CREATE)
     const canUpdate = useHasPermission(ROLES_GROUP_UPDATE)
 
@@ -27,7 +28,7 @@ export const DivisionForm : FC = () => {
         open, setOpen,
         form, setForm, reset,
         onSuccess, setOnSuccess,
-    } = useContext(DivisionFormContext) as DivisionFormContextType
+    } = useContext(PositionFormContext) as PositionFormContextType
 
     const { props } = usePage<PageProps>()
 
@@ -58,12 +59,12 @@ export const DivisionForm : FC = () => {
 
         let service
         if (id) {
-            service = UpdateDivision(id, form, props.csrf_token)
+            service = UpdatePosition(id, form, props.csrf_token)
         } else {
-            service = CreateDivision(form, props.csrf_token)
+            service = CreatePosition(form, props.csrf_token)
         }
 
-        service.then((response: Response<Division>) => {
+        service.then((response: Response<Position>) => {
             if (response.status.code != 200) {
                 return
             }
@@ -99,7 +100,7 @@ export const DivisionForm : FC = () => {
             open={open}
             title={(
                 <h3 className="varela-round text-2xl">
-                    { id ? 'Edit Division' : 'Create Division' }
+                    { id ? 'Edit Position' : 'Create Position' }
                 </h3>
             )}
             onClose={handleClose}
@@ -122,6 +123,14 @@ export const DivisionForm : FC = () => {
                         label="Code"
                         required
                         value={form.code}
+                        onChange={handleChange}
+                        disabled={loading}
+                    />
+                    <DivisionSelect
+                        name="division_id"
+                        label="Division"
+                        required
+                        value={form.division_id}
                         onChange={handleChange}
                         disabled={loading}
                     />

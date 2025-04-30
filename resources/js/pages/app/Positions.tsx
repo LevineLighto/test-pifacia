@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/layouts";
+import { PositionFilterProvider, PositionForm, PositionFormProvider, PositionSection } from "@/hr/components";
 import { Head } from "@inertiajs/react";
 import { FC } from "react";
 
@@ -8,7 +9,12 @@ const PositionsPage : FC = () => (
             title="Positions"
         />
         <AppLayout>
-            Awoo
+            <PositionFormProvider>
+                <PositionFilterProvider>
+                    <PositionSection/>
+                    <PositionForm/>
+                </PositionFilterProvider>
+            </PositionFormProvider>
         </AppLayout>
     </>
 )

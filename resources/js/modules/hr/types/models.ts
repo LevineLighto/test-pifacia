@@ -13,7 +13,7 @@ export interface Position extends BaseModel {
     code        : string
     is_active   : boolean
     scope       : string[]
-    division?   : Division
+    division    : Division
     employees?  : Employee[]
 }
 
@@ -23,7 +23,7 @@ export interface Employee extends BaseModel {
     is_active   : boolean
     bpjs        : Record<string, any>
     bpjs_file?  : string
-    position?   : Position
+    position    : Position
     division?   : Division
     joined_at?  : string
 }
