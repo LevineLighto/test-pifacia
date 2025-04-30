@@ -20,3 +20,13 @@ export interface RoleFilter extends BaseFilter {
 export interface AssignPermissionRequest {
     permission_ids: string[]
 }
+
+export interface AssignPermissionFormItem {
+    id      : string
+    name    : string
+    code    : string
+    checked : boolean
+    disabled: boolean
+}
+
+export type AssignPermissionForm = Record<string, AssignPermissionFormItem>

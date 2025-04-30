@@ -1,1 +1,1 @@
-export { CreateRole, UpdateRole, DeleteRole } from "./roles"
+export { CreateRole, UpdateRole, DeleteRole, AssignPermission } from "./roles"

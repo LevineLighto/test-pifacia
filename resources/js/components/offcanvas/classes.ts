@@ -1,19 +1,23 @@
 export const containerClasses = {
     background  : 'bg-white',
     border      : 'border-l border-l-slate-200',
+    height      : 'h-full',
     maxWidth    : {
         open    : 'max-w-[640px]',
         closed  : 'max-w-0',
     },
+    overflow    : 'overflow-auto',
     position    : 'fixed inset-y-0 right-0',
     width       : 'w-[90vw]',
     zIndex      : 'z-1001',
 }
 
 export const headerClasses = {
-    display : 'flex',
-    flex    : 'justify-between items-center',
-    padding : 'px-5 py-4',
+    background  : 'bg-white',
+    display     : 'flex',
+    flex        : 'justify-between items-center',
+    padding     : 'px-5 py-4',
+    position    : 'sticky top-0'
 }
 
 export const buttonClasses = {
@@ -30,5 +34,5 @@ export const titleClasses = {
 }
 
 export const bodyClasses = {
-    padding: 'ps-15 pe-5 py-4'
+    padding : 'ps-15 pe-5 py-4'
 }

@@ -1,4 +1,4 @@
-import { Role, RoleRequest } from "@/account/types";
+import { AssignPermissionRequest, Role, RoleRequest } from "@/account/types";
 import { DELETE, POST, PUT } from "@/functions/fetch";
 import { route } from "ziggy-js";
 
@@ -22,5 +22,13 @@ export const DeleteRole = (id: string, csrf_token: string) => {
     return DELETE({
         url         : route('accounts.roles.delete', id),
         csrf_token  : csrf_token,
+    })
+}
+
+export const AssignPermission = (id: string, form: AssignPermissionRequest, csrf_token: string) => {
+    return PUT({
+        url         : route('accounts.roles.assign-permission', id),
+        data        : form,
+        csrf_token  : csrf_token
     })
 }

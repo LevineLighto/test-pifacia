@@ -7,8 +7,12 @@ import { Plus } from "react-feather";
 import { RoleFilter, RoleFilterContext, RoleFilterContextType } from "../role-filter";
 import { useGetRoles } from "@/account/hooks";
 import { RoleTable } from "../role-table/components";
+import { useHasPermission } from "@/hooks/permission";
+import { ROLES_GROUP_CREATE } from "@/constants/permissions";
 
 export const RoleSection : FC = () => {
+    const canCreate = useHasPermission(ROLES_GROUP_CREATE)
+
     const { 
         setOpen, setOnSuccess
     } = useContext(RoleFormContext) as RoleFormContextType
@@ -30,13 +34,15 @@ export const RoleSection : FC = () => {
                 <h1 className="text-3xl varela-round">
                     Roles
                 </h1>
-                <Button
-                    type="button"
-                    className="flex items-center"
-                    onClick={handleCreate}
-                >
-                    <Plus size="1.5rem"/> Create
-                </Button>
+                { canCreate ? (
+                    <Button
+                        type="button"
+                        className="flex items-center"
+                        onClick={handleCreate}
+                    >
+                        <Plus size="1.5rem"/> Create
+                    </Button>
+                ) : (<></>) }
             </header>
             <RoleFilter/>
             <RoleTable/>

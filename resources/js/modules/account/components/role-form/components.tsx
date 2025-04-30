@@ -14,8 +14,13 @@ import { toast } from "react-toastify";
 import { Loader } from "react-feather";
 import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
+import { useHasPermission } from "@/hooks/permission";
+import { ROLES_GROUP_CREATE, ROLES_GROUP_UPDATE } from "@/constants/permissions";
 
 export const RoleForm : FC = () => {
+    const canCreate = useHasPermission(ROLES_GROUP_CREATE)
+    const canUpdate = useHasPermission(ROLES_GROUP_UPDATE)
+
     const {
         id, setId,
         open, setOpen,
@@ -84,6 +89,10 @@ export const RoleForm : FC = () => {
         handleClose()
     }, [open])
 
+    if (!canCreate && !canUpdate) {
+        return (<></>)
+    }
+
     return (
         <Offcanvas
             open={open}
@@ -123,19 +132,21 @@ export const RoleForm : FC = () => {
                         disabled={loading}
                     />
                 </section>
-                <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={loading}
-                >
-                    { loading ? (
-                        <>
-                            <Loader className="inline-block"/>
-                            {' '}
-                        </>
-                    ) : <></> }
-                    Submit
-                </Button>
+                <section className="sticky bottom-0 p-3 bg-white">
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={loading}
+                    >
+                        { loading ? (
+                            <>
+                                <Loader className="inline-block"/>
+                                {' '}
+                            </>
+                        ) : <></> }
+                        Submit
+                    </Button>
+                </section>
             </Form>
         </Offcanvas>
     )

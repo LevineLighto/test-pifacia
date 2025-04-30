@@ -1,4 +1,4 @@
-import { RoleForm, RoleFormProvider, RoleSection } from "@/account/components";
+import { PermissionForm, PermissionFormProvider, RoleForm, RoleFormProvider, RoleSection } from "@/account/components";
 import { RoleFilterProvider } from "@/account/components/role-filter";
 import { AppLayout } from "@/components/layouts";
 import { Head } from "@inertiajs/react";
@@ -12,8 +12,11 @@ const RolesPage : FC = () => (
         <AppLayout>
             <RoleFormProvider>
                 <RoleFilterProvider>
-                    <RoleSection/>
-                    <RoleForm/>
+                    <PermissionFormProvider>
+                        <RoleSection/>
+                        <RoleForm/>
+                        <PermissionForm/>
+                    </PermissionFormProvider>
                 </RoleFilterProvider>
             </RoleFormProvider>
         </AppLayout>

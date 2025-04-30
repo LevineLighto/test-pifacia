@@ -6,8 +6,12 @@ import { Input, InputChangeHandler, SortButton, StatusSelect } from "@/component
 import { Button } from "@/components/buttons";
 import { List } from "react-feather";
 import { SortableRoleField } from "./constants";
+import { useHasPermission } from "@/hooks/permission";
+import { ROLES_GROUP_READ } from "@/constants/permissions";
 
 export const RoleFilter : FC = () => {
+    const canRead   = useHasPermission(ROLES_GROUP_READ)
+
     const {
         filter, setFilter,
         setCommittedFilter
@@ -22,6 +26,10 @@ export const RoleFilter : FC = () => {
 
     const handleSubmit = () => {
         setCommittedFilter((prevState) => ({...filter}))
+    }
+
+    if (!canRead) {
+        return <></>
     }
 
     return (

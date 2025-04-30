@@ -18,7 +18,11 @@ export const Offcanvas : FC<OffcanvasProps> = ({
             } ${
                 containerClasses.border
             } ${
+                containerClasses.height
+            } ${
                 containerClasses.maxWidth[open? 'open' : 'closed']
+            } ${
+                containerClasses.overflow
             } ${
                 containerClasses.position
             } ${
@@ -29,11 +33,15 @@ export const Offcanvas : FC<OffcanvasProps> = ({
         >
             <header 
                 className={`${
+                    headerClasses.background
+                } ${
                     headerClasses.display
                 } ${
                     headerClasses.flex
                 } ${
                     headerClasses.padding
+                } ${
+                    headerClasses.position
                 }`}
             >
                 <button

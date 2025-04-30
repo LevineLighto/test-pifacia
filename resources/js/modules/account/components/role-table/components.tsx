@@ -6,18 +6,31 @@ import { DataDisplay, StatusBadge } from "@/components/misc";
 import { Card } from "@/components/card";
 import { Role } from "@/account/types";
 import { IconButton } from "@/components/buttons";
-import { Edit, Trash } from "react-feather";
+import { Edit, Shield, Trash } from "react-feather";
 import { ConfirmModal } from "@/components/modals";
 import { DeleteRole } from "@/account/functions/requests";
 import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { toast } from "react-toastify";
+import { PermissionFormContext, PermissionFormContextType } from "../permission-form";
+import { useHasPermission } from "@/hooks/permission";
+import { PERMISSION_ASSIGN, ROLES_GROUP_DELETE, ROLES_GROUP_READ, ROLES_GROUP_UPDATE } from "@/constants/permissions";
 
 export const RoleTable : FC = () => {
+    const canRead   = useHasPermission(ROLES_GROUP_READ)
+    const canUpdate = useHasPermission(ROLES_GROUP_UPDATE)
+    const canDelete = useHasPermission(ROLES_GROUP_DELETE)
+    const canAssign = useHasPermission(PERMISSION_ASSIGN)
+
     const { 
         setId, setForm,
         setOpen, setOnSuccess,
     } = useContext(RoleFormContext) as RoleFormContextType
+    
+    const { 
+        setId       : setPermissionId,
+        setOpen     : setPermissionOpen, 
+    } = useContext(PermissionFormContext) as PermissionFormContextType
 
     const {
         committedFilter
@@ -33,11 +46,12 @@ export const RoleTable : FC = () => {
     const { props } = usePage<PageProps>()
 
     const handleEdit = (role : Role) => {
-        if (!role.editable) {
+        if (!role.editable || role.id == props.user?.role?.id) {
             return
         }
 
         setOpen(false)
+        setPermissionOpen(false)
 
         setTimeout(() => {
             setId(role.id)
@@ -53,6 +67,8 @@ export const RoleTable : FC = () => {
     }
 
     const handleOpenDelete = (role: Role) => {
+        setOpen(false)
+        setPermissionOpen(false)
         setDeleteId(role.id)
         setDeleteName(role.name)
         setDeleteOpen(true)
@@ -84,6 +100,23 @@ export const RoleTable : FC = () => {
             .finally(() => {
                 setDeleting(false)
             })
+    }
+
+    const handleAssignPermission = (role: Role) => {
+        if (role.id == props.user?.role?.id || role.code == 'SU') {
+            return
+        }
+
+        setOpen(false)
+        setPermissionOpen(false)
+        setTimeout(() => {
+            setPermissionId(role.id)
+            setPermissionOpen(true)
+        }, 300)
+    }
+
+    if (!canRead) {
+        return (<></>)
     }
 
     return (
@@ -128,36 +161,52 @@ export const RoleTable : FC = () => {
                             </DataDisplay>
                         </div>
 
-                        { item.editable ? (
+                        { item.id != props.user?.role?.id || props.user.role.code == 'SU' ? (
                             <div className="flex gap-2 justify-end">
-                                <IconButton
-                                    onClick={() => handleEdit(item)}
-                                    variant="outline"
-                                >
-                                    <Edit
-                                        size="1rem"
-                                    />
-                                </IconButton>
-                                <IconButton
-                                    onClick={() => handleOpenDelete(item)}
-                                >
-                                    <Trash
-                                        size="1rem"
-                                    />
-                                </IconButton>
+                                { item.editable && canUpdate ? (
+                                    <IconButton
+                                        onClick={() => handleEdit(item)}
+                                        variant="outline"
+                                    >
+                                        <Edit
+                                            size="1rem"
+                                        />
+                                    </IconButton>
+                                ) : (<></>) }
+                                { canAssign ? (
+                                    <IconButton
+                                        onClick={() => handleAssignPermission(item)}
+                                        variant="outline"
+                                    >
+                                        <Shield
+                                            size="1rem"
+                                        />
+                                    </IconButton>
+                                ) : (<></>) }
+                                { item.editable && canDelete ? (
+                                    <IconButton
+                                        onClick={() => handleOpenDelete(item)}
+                                    >
+                                        <Trash
+                                            size="1rem"
+                                        />
+                                    </IconButton>
+                                ) : (<></>) }
                             </div>
                         ) : (<></>) }
                     </Card>
                 )) }
             </section>
-            <ConfirmModal
-                message={`Are you sure you want to delete ${ deleteName ? deleteName : 'This role' }?`}
-                flow="negative"
-                open={deleteOpen}
-                loading={deleting}
-                onCancel={handleCloseDelete}
-                onSubmit={handleDelete}
-            />
+            { canDelete ? (
+                <ConfirmModal
+                    message={`Are you sure you want to delete ${ deleteName ? deleteName : 'This role' }?`}
+                    flow="negative"
+                    open={deleteOpen}
+                    loading={deleting}
+                    onCancel={handleCloseDelete}
+                    onSubmit={handleDelete}
+                />
+            ) : (<></>) }
         </>
     )
 }

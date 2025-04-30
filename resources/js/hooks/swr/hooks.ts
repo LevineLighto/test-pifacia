@@ -5,7 +5,7 @@ import { useMemo } from "react"
 import { default as useSWR } from "swr"
 
 export const useSwr = <Data = any> (
-    url     : string,
+    url     : string | null,
     filter  : Record<string, any> | false = {},
     refreshOnInterval : boolean = false
 ) => {
