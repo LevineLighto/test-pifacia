@@ -13,11 +13,11 @@ export interface FormContext<Data> {
 }
 
 export interface BaseFilter {
-    search  : string
-    page    : number
-    limit   : number
-    sort_by : string
-    sort_dir: string
+    search      : string
+    page        : number
+    limit       : number
+    sort_by?    : string
+    sort_dir?   : string
 }
 
 export interface FilterContext<Data> {

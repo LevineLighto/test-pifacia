@@ -3,7 +3,7 @@ import { BaseModel } from "@/types"
 export interface User extends BaseModel {
     name    : string
     email   : string
-    role?   : Role
+    role    : Role
 }
 
 export interface Role extends BaseModel {

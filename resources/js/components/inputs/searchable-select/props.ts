@@ -2,7 +2,7 @@ import { BaseModel } from "@/types"
 import { SelectChangeHandler } from "../types"
 import { ReactNode } from "react"
 
-export interface SearchableSelectProps {
+export interface SearchableSelectProps<Data = BaseModel> {
     id?                 : string
     name                : string
     label?              : string
@@ -11,7 +11,7 @@ export interface SearchableSelectProps {
     loading?            : boolean
     disabled?           : boolean
     containerClassName? : string
-    data?               : BaseModel[]
+    data?               : Data[]
     value?              : any | any[]
     search?             : string
     itemLabelKey?       : string

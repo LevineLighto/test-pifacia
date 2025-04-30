@@ -1,9 +1,13 @@
 import { BaseFilter } from "@/types/forms"
 
 export interface UserRequest {
-    name    : string
-    email   : string
-    password: string
+    name        : string
+    email       : string
+    password?   : string
+    role_id     : string
+}
+
+export interface UserFilter extends BaseFilter {
     role_id : string
 }
 

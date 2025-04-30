@@ -1,5 +1,5 @@
 export type { User, Role, Permission } from "./models"
 export type { 
     UserRequest, RoleRequest, AssignPermissionRequest,
-    RoleFilter
+    UserFilter, RoleFilter
 } from "./requests"

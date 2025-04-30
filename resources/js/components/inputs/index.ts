@@ -10,4 +10,5 @@ export type {
     SelectChangeHandler,
 } from "./types"
 
+export type { SearchableSelectProps } from "./searchable-select"
 export type { SortableItem } from "./sort-button"

@@ -63,6 +63,11 @@ class User extends Authenticatable
             $query->where('role_id', $request->role_id);
         }
 
+        if (!empty($request->sort_by)) {
+            $direction = !empty($request->sort_dir) ? $request->sort_dir : 'ASC';
+            $query->orderBy($request->sort_by, $direction);
+        }
+
         return $query;
     }
 
