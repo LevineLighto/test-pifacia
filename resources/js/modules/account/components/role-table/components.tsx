@@ -103,7 +103,7 @@ export const RoleTable : FC = () => {
     }
 
     const handleAssignPermission = (role: Role) => {
-        if (role.id == props.user?.role?.id || role.code == 'SU') {
+        if (props.user?.role.code != 'SU' && (role.id == props.user?.role?.id || role.code == 'SU')) {
             return
         }
 
