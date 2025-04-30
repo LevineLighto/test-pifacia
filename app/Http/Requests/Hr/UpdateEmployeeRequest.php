@@ -23,7 +23,7 @@ class UpdateEmployeeRequest extends FormRequest
     {
         return [
             'name'          => ['required', 'string'],
-            'code'          => ['required', 'email'],
+            'email'         => ['required', 'email'],
             'is_active'     => ['required', 'boolean'],
             'bpjs'          => ['nullable', 'array'],
             'bpjs_file'     => ['nullable', 'file', 'mimes:pdf', 'between:100,500'],

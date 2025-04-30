@@ -19,6 +19,7 @@ export default defineConfig({
         alias: {
             '@/account' : path.resolve(__dirname, './resources/js/modules/account/'),
             '@/auth'    : path.resolve(__dirname, './resources/js/modules/auth/'),
+            '@/hr'      : path.resolve(__dirname, './resources/js/modules/hr/'),
             '@'         : path.resolve(__dirname, './resources/js/'),
         }
     }

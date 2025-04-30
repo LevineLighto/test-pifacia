@@ -23,7 +23,7 @@ class CreateEmployeeRequest extends FormRequest
     {
         return [
             'name'          => ['required', 'string'],
-            'code'          => ['required', 'email'],
+            'email'         => ['required', 'email'],
             'password'      => ['required', 'string', 'min:8'],
             'is_active'     => ['required', 'boolean'],
             'bpjs'          => ['nullable', 'array'],

@@ -62,6 +62,20 @@ if (!function_exists('format_date')) {
     }
 }
 
+if (!function_exists('format_raw_date')) {
+    function format_raw_date (Carbon|string|null $date) {
+        if (is_null($date)) {
+            return null;
+        }
+        
+        if (is_string($date)) {
+            $date = new Carbon($date);
+        }
+
+        return $date->toISOString();
+    }
+}
+
 if (!function_exists('parse_date')) {
     function parse_date (string $date, ?bool $withTime = false) {
         $format = 'd F Y';

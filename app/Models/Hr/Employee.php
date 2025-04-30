@@ -49,6 +49,15 @@ class Employee extends BaseModel
             $query->where('is_active', $request->is_active);
         }
 
+        if (!empty($request->position_id)) {
+            $query->where('position_id', $request->position_id);
+        }
+
+        if (!empty($request->sort_by)) {
+            $direction = !empty($request->sort_dir) ? $request->sort_dir : 'ASC';
+            $query->orderBy($request->sort_by, $direction);
+        }
+
         return $query;
     }
 

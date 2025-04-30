@@ -8,7 +8,7 @@ export const DataDisplay : FC<DataDisplayProps> = ({
     containerClassName,
 }) => (
     <div className={containerClassName}>
-        <p className="text-slate-400 mb-0">
+        <p className="text-sm text-slate-400 mb-0">
             { label }
         </p>
         <p className={className}>

@@ -22,6 +22,7 @@ class EmployeeParser extends BaseParser
             'position'      => PositionParser::brief($data->position),
             'division'      => DivisionParser::brief($data->position->division),
             'joined_at'     => format_date($data->joined_at),
+            'raw_joined_at' => format_raw_date($data->joined_at),
             'created_at'    => format_date($data->created_at, true),
             'created_by'    => format_subject($data),
             'updated_at'    => format_date($data->updated_at, true),

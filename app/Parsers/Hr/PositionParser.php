@@ -43,6 +43,12 @@ class PositionParser extends BaseParser
             'name'          => $data->name,
             'code'          => $data->code,
             'is_active'     => $data->is_active,
+            'scope'         => $data->scope,
+            'division'      => DivisionParser::brief($data->division),
+            'created_at'    => format_date($data->created_at, true),
+            'created_by'    => format_subject($data),
+            'updated_at'    => format_date($data->updated_at, true),
+            'updated_by'    => format_subject($data, 'updated_by'),
         ];
     }
 }

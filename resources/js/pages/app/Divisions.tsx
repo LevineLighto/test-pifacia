@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/layouts";
+import { DivisionFilterProvider, DivisionForm, DivisionFormProvider, DivisionSection } from "@/hr/components";
 import { Head } from "@inertiajs/react";
 import { FC } from "react";
 
@@ -8,7 +9,12 @@ const DivisionsPage : FC = () => (
             title="Divisions"
         />
         <AppLayout>
-            Awoo
+            <DivisionFormProvider>
+                <DivisionFilterProvider>
+                    <DivisionSection/>
+                    <DivisionForm/>
+                </DivisionFilterProvider>
+            </DivisionFormProvider>
         </AppLayout>
     </>
 )
