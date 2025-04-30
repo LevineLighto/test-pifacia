@@ -20,6 +20,7 @@ export default defineConfig({
             '@/account' : path.resolve(__dirname, './resources/js/modules/account/'),
             '@/auth'    : path.resolve(__dirname, './resources/js/modules/auth/'),
             '@/hr'      : path.resolve(__dirname, './resources/js/modules/hr/'),
+            '@/misc'    : path.resolve(__dirname, './resources/js/modules/misc/'),
             '@'         : path.resolve(__dirname, './resources/js/'),
         }
     }

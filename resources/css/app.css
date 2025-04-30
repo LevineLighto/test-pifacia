@@ -64,8 +64,12 @@
     @apply text-slate-300;
 }
 
-.react-datepicker__day--keyboard-selected {
+.react-datepicker__day--selected {
     @apply text-white bg-primary hover:!bg-primary;
+}
+
+.react-datepicker__day--keyboard-selected {
+    @apply text-white bg-primary-400 hover:!bg-primary-400;
 }
 
 .react-datepicker__header {

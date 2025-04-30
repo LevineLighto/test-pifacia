@@ -101,6 +101,8 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'Create Employees', 'code' => PermissionCode::EMPLOYEES_CREATE, 'created_at' => now()],
             ['name' => 'Update Employees', 'code' => PermissionCode::EMPLOYEES_UPDATE, 'created_at' => now()],
             ['name' => 'Delete Employees', 'code' => PermissionCode::EMPLOYEES_DELETE, 'created_at' => now()],
+            
+            ['name' => 'Read Activities', 'code' => PermissionCode::ACTIVITY_READ, 'created_at' => now()],
         ];
     }
 }

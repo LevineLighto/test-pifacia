@@ -77,13 +77,8 @@ if (!function_exists('format_raw_date')) {
 }
 
 if (!function_exists('parse_date')) {
-    function parse_date (string $date, ?bool $withTime = false) {
-        $format = 'd F Y';
-        if ($withTime) {
-            $format .= ' H:i';
-        }
-
-        return Carbon::createFromFormat($format, $date);
+    function parse_date(string $date) {
+        return new Carbon($date);
     }
 }
 

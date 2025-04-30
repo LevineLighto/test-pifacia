@@ -17,6 +17,7 @@
             "@/account/*"   : ["./resources/js/modules/account/*"],
             "@/auth/*"      : ["./resources/js/modules/auth/*"],
             "@/hr/*"        : ["./resources/js/modules/hr/*"],
+            "@/misc/*"      : ["./resources/js/modules/misc/*"],
             "@/*"           : ["./resources/js/*"],
         }
     },

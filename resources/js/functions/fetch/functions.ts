@@ -52,6 +52,10 @@ export const objectToUrl = (url: string, data: Record<string, any>) : string => 
 
         let value = data[key]
 
+        if (value instanceof Date) {
+            value = value.toISOString()
+        }
+
         if (Array.isArray(value)) {
             value = value.join(',')
         }

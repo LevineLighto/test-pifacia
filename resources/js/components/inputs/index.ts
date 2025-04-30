@@ -1,5 +1,6 @@
 export { Checkbox } from "./checkbox"
 export { Datepicker } from "./datepicker"
+export { Daterangepicker } from "./daterangepicker"
 export { Dropbox, DropboxContext, DropboxProvider } from "./dropbox"
 export { Input } from "./input"
 export { SearchableSelect } from "./searchable-select"

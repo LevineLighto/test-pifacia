@@ -37,4 +37,6 @@ class PermissionCode extends BaseCodeConstant
     const EMPLOYEES_CREATE = 'employees.create';
     const EMPLOYEES_UPDATE = 'employees.update';
     const EMPLOYEES_DELETE = 'employees.delete';
+
+    const ACTIVITY_READ = 'activity.read';
 }

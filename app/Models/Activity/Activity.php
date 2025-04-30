@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 use App\Parsers\Activity\ActivityParser;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class Activity extends BaseModel
 {
@@ -44,7 +45,14 @@ class Activity extends BaseModel
             $from   = parse_date($request->from_date)->startOfDay();
             $to     = parse_date($request->to_date)->endOfDay();
 
+            Log::debug(json_encode([$from, $to]));
+
             $query->whereBetween('created_at', [$from, $to]);
+        }
+
+        if (!empty($request->sort_by)) {
+            $direction = !empty($request->sort_dir) ? $request->sort_dir : 'ASC';
+            $query->orderBy($request->sort_by, $direction);
         }
 
         return $query;
