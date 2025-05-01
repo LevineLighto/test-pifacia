@@ -45,8 +45,6 @@ class Activity extends BaseModel
             $from   = parse_date($request->from_date)->startOfDay();
             $to     = parse_date($request->to_date)->endOfDay();
 
-            Log::debug(json_encode([$from, $to]));
-
             $query->whereBetween('created_at', [$from, $to]);
         }
 

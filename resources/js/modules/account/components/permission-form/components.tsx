@@ -87,8 +87,6 @@ export const PermissionForm : FC = () => {
                 }
             }
 
-            console.log(modified)
-
             return modified
         })
     }, [])

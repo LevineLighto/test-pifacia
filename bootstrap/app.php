@@ -29,22 +29,22 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (FailedException $exception) {
-            Log::debug($exception);
+            Log::error($exception);
             return failed($exception->getMessage(), $exception->getCode());
         });
 
         $exceptions->render(function (HttpException $exception) {
-            Log::debug($exception);
+            Log::error($exception);
             return failed($exception->getMessage(), $exception->getStatusCode());
         });
 
         $exceptions->render(function (ValidationException $exception) {
-            Log::debug($exception);
+            Log::error($exception);
             return failed($exception->getMessage(), 400);
         });
 
         $exceptions->render(function (Exception $exception) {
-            Log::debug($exception);
+            Log::error($exception);
             return failed('Something unexpected happened!');
         });
     })->create();

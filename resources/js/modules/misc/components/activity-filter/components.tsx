@@ -17,7 +17,6 @@ export const ActivityFilter : FC = () => {
     } = useContext(ActivityFilterContext) as ActivityFilterContextType
 
     const handleChange = useCallback<InputChangeHandler>(({ name, value }) => {
-        console.log(name, value)
         setFilter((prevState) => ({
             ...prevState,
             [name] : value
