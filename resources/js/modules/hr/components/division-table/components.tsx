@@ -14,6 +14,7 @@ import { useHasPermission } from "@/hooks/permission";
 import { DIVISIONS_GROUP_DELETE, DIVISIONS_GROUP_READ, DIVISIONS_GROUP_UPDATE } from "@/constants/permissions";
 import { Table } from "@/components/table";
 import { DataDisplay, StatusBadge } from "@/components/misc";
+import { Pagination } from "@/components/navigations";
 
 export const DivisionTable : FC = () => {
     const canRead   = useHasPermission(DIVISIONS_GROUP_READ)
@@ -26,7 +27,7 @@ export const DivisionTable : FC = () => {
     } = useContext(DivisionFormContext) as DivisionFormContextType
 
     const {
-        committedFilter
+        committedFilter, setCommittedFilter
     } = useContext(DivisionFilterContext) as DivisionFilterContextType
 
     const { isLoading, error, data, mutate } = useGetDivisions(committedFilter)
@@ -37,6 +38,13 @@ export const DivisionTable : FC = () => {
     const [deleting, setDeleting] = useState(false)
 
     const { props } = usePage<PageProps>()
+
+    const handlePagination = (page: number) => {
+        setCommittedFilter((prevState) => ({
+            ...prevState,
+            page: page
+        }))
+    }
 
     const handleEdit = (division : Division) => {
         setOpen(false)
@@ -214,6 +222,11 @@ export const DivisionTable : FC = () => {
                     )) }
                 </tbody>
             </Table>
+            <Pagination
+                page={data?.pagination?.current_page}
+                max={data?.pagination?.total_page}
+                onClick={handlePagination}
+            />
             { canDelete ? (
                 <ConfirmModal
                     message={`Are you sure you want to delete ${ deleteName ? deleteName : 'This division' }?`}

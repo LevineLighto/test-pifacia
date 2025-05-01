@@ -27,7 +27,7 @@ class BaseParser
         $result = collect($data)->except(['created_at', 'updated_at', 'deleted_at'])->toArray();
 
         return $result + [
-            'created_at' => $data->created_at->format('d/m/Y H:i')
+            'created_at' => format_date($data->created_at),
         ];
     }
 

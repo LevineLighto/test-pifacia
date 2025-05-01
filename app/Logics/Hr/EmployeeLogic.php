@@ -3,10 +3,12 @@
 namespace App\Logics\Hr;
 
 use App\Constants\Activity\ActivityAction;
+use App\Jobs\Hr\ExportEmployeeJob;
 use App\Models\Account\Role;
 use App\Models\Account\User;
 use App\Models\Hr\Employee;
 use App\Models\Hr\Position;
+use App\Models\Misc\ExportJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -204,6 +206,44 @@ class EmployeeLogic
 
             $this->employee->setActivityPropertyAttributes(ActivityAction::DELETE)
                 ->saveActivity("Delete employee: {$this->employee->name} [{$this->employee->id}]");
+
+            DB::commit();
+            return success();
+
+        } catch (\Throwable $th) {
+            
+            DB::rollBack();
+            throw $th;
+
+        }
+    }
+
+    public function export()
+    {
+        DB::beginTransaction();
+        try {
+
+            $user = auth_user();
+
+            $exportExists = ExportJob::where('model', Employee::class)
+                ->where('created_by', $user->id)
+                ->whereNull('completed_at')
+                ->exists();
+            if ($exportExists) {
+                error('Your previous request is being generated, please wait for that one to complete', 400);
+            }
+
+            /** @var ExportJob */
+            $export = ExportJob::create([
+                'model'             => Employee::class,
+                'created_by'        => $user->id,
+                'created_by_name'   => $user->name,
+            ]);
+
+            $export->setActivityPropertyAttributes(ActivityAction::CREATE)
+                ->saveActivity("Exporting employee data");
+
+            ExportEmployeeJob::dispatch($user);
 
             DB::commit();
             return success();

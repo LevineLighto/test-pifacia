@@ -16,4 +16,6 @@ class ActivityType extends BaseCodeConstant
     const POSITION  = 'position';
     const EMPLOYEE  = 'employee';
 
+    const MISC      = 'misc';
+    const EXPORT    = 'export';
 }

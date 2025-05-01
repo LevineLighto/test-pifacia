@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useHasPermission } from "@/hooks/permission";
 import { USERS_GROUP_DELETE, USERS_GROUP_READ, USERS_GROUP_UPDATE } from "@/constants/permissions";
 import { Table } from "@/components/table";
+import { Pagination } from "@/components/navigations";
 
 export const UserTable : FC = () => {
     const canRead   = useHasPermission(USERS_GROUP_READ)
@@ -25,7 +26,7 @@ export const UserTable : FC = () => {
     } = useContext(UserFormContext) as UserFormContextType
 
     const {
-        committedFilter
+        committedFilter, setCommittedFilter
     } = useContext(UserFilterContext) as UserFilterContextType
 
     const { isLoading, error, data, mutate } = useGetUsers(committedFilter)
@@ -36,6 +37,13 @@ export const UserTable : FC = () => {
     const [deleting, setDeleting] = useState(false)
 
     const { props } = usePage<PageProps>()
+
+    const handlePagination = (page: number) => {
+        setCommittedFilter((prevState) => ({
+            ...prevState,
+            page: page
+        }))
+    }
 
     const handleEdit = (user : User) => {
         setOpen(false)
@@ -154,6 +162,11 @@ export const UserTable : FC = () => {
                     )) }
                 </tbody>
             </Table>
+            <Pagination
+                page={data?.pagination?.current_page}
+                max={data?.pagination?.total_page}
+                onClick={handlePagination}
+            />
             { canDelete ? (
                 <ConfirmModal
                     message={`Are you sure you want to delete ${ deleteName ? deleteName : 'This user' }?`}

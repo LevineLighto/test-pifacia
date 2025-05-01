@@ -39,7 +39,7 @@ trait HasActivity
 
     public function saveActivity(string $description)
     {
-        $url = $_SERVER['REQUEST_URI'];
+        $url = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
         $user = auth_user();
 
         /** @var Activity */
@@ -50,8 +50,8 @@ trait HasActivity
             'description'       => $description,
             'url'               => $url,
             'properties'        => $this->activity_properties,
-            'created_by'        => $user->id,
-            'created_by_name'   => $user->name,
+            'created_by'        => $user?->id,
+            'created_by_name'   => $user?->name,
         ]);
 
         $activity->referable()->associate($this);

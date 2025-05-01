@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { PermissionFormContext, PermissionFormContextType } from "../permission-form";
 import { useHasPermission } from "@/hooks/permission";
 import { PERMISSION_ASSIGN, ROLES_GROUP_DELETE, ROLES_GROUP_READ, ROLES_GROUP_UPDATE } from "@/constants/permissions";
+import { Pagination } from "@/components/navigations";
 
 export const RoleTable : FC = () => {
     const canRead   = useHasPermission(ROLES_GROUP_READ)
@@ -33,7 +34,7 @@ export const RoleTable : FC = () => {
     } = useContext(PermissionFormContext) as PermissionFormContextType
 
     const {
-        committedFilter
+        committedFilter, setCommittedFilter
     } = useContext(RoleFilterContext) as RoleFilterContextType
 
     const { isLoading, error, data, mutate } = useGetRoles(committedFilter)
@@ -44,6 +45,13 @@ export const RoleTable : FC = () => {
     const [deleting, setDeleting] = useState(false)
 
     const { props } = usePage<PageProps>()
+    
+    const handlePagination = (page: number) => {
+        setCommittedFilter((prevState) => ({
+            ...prevState,
+            page: page
+        }))
+    }
 
     const handleEdit = (role : Role) => {
         if (!role.editable || role.id == props.user?.role?.id) {
@@ -122,7 +130,7 @@ export const RoleTable : FC = () => {
     return (
         <>
             <section 
-                className="grid md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-4"
+                className="grid md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-4 mb-4"
             >
                 { isLoading ? (
                     <Card
@@ -197,6 +205,11 @@ export const RoleTable : FC = () => {
                     </Card>
                 )) }
             </section>
+            <Pagination
+                page={data?.pagination?.current_page}
+                max={data?.pagination?.total_page}
+                onClick={handlePagination}
+            />
             { canDelete ? (
                 <ConfirmModal
                     message={`Are you sure you want to delete ${ deleteName ? deleteName : 'This role' }?`}

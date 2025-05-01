@@ -2,6 +2,13 @@ import { Position, PositionRequest } from "@/hr/types";
 import { DELETE, POST, PUT } from "@/functions/fetch";
 import { route } from "ziggy-js";
 
+export const ExportPosition = (csrf_token: string) => {
+    return POST({
+        url         : route('hr.positions.export'),
+        csrf_token  : csrf_token,
+    })
+}
+
 export const CreatePosition = (form: PositionRequest, csrf_token: string) => {
     return POST<Position>({
         url         : route('hr.positions.create'),

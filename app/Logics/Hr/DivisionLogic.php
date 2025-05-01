@@ -3,7 +3,9 @@
 namespace App\Logics\Hr;
 
 use App\Constants\Activity\ActivityAction;
+use App\Jobs\Hr\ExportDivisionJob;
 use App\Models\Hr\Division;
+use App\Models\Misc\ExportJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -93,6 +95,44 @@ class DivisionLogic
 
             $this->division->setActivityPropertyAttributes(ActivityAction::DELETE)
                 ->saveActivity("Delete division: {$this->division->name} [{$this->division->id}]");
+
+            DB::commit();
+            return success();
+
+        } catch (\Throwable $th) {
+            
+            DB::rollBack();
+            throw $th;
+
+        }
+    }
+
+    public function export()
+    {
+        DB::beginTransaction();
+        try {
+
+            $user = auth_user();
+
+            $exportExists = ExportJob::where('model', Division::class)
+                ->where('created_by', $user->id)
+                ->whereNull('completed_at')
+                ->exists();
+            if ($exportExists) {
+                error('Your previous request is being generated, please wait for that one to complete', 400);
+            }
+
+            /** @var ExportJob */
+            $export = ExportJob::create([
+                'model'             => Division::class,
+                'created_by'        => $user->id,
+                'created_by_name'   => $user->name,
+            ]);
+
+            $export->setActivityPropertyAttributes(ActivityAction::CREATE)
+                ->saveActivity("Exporting division data");
+
+            ExportDivisionJob::dispatch($user);
 
             DB::commit();
             return success();

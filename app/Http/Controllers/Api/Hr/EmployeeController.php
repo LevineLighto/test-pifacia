@@ -20,7 +20,7 @@ class EmployeeController extends Controller
             }
 
             return $next($request);
-        })->only(['get', 'find']);
+        })->only(['get', 'find', 'export']);
 
         $this->middleware(function ($request, $next) {
             if (!has_permissions(PermissionCode::EMPLOYEES_ALL, PermissionCode::EMPLOYEES_CREATE)) {
@@ -54,6 +54,11 @@ class EmployeeController extends Controller
             ->paginate($request->limit ?: 50);
 
         return success($employees);
+    }
+
+    public function export()
+    {
+        return (new EmployeeLogic())->export();
     }
 
     public function find($id)

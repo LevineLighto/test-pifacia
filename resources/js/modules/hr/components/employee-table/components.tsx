@@ -14,6 +14,7 @@ import { useHasPermission } from "@/hooks/permission";
 import { EMPLOYEES_GROUP_DELETE, EMPLOYEES_GROUP_READ, EMPLOYEES_GROUP_UPDATE } from "@/constants/permissions";
 import { Table } from "@/components/table";
 import { DataDisplay, StatusBadge } from "@/components/misc";
+import { Pagination } from "@/components/navigations";
 
 export const EmployeeTable : FC = () => {
     const canRead   = useHasPermission(EMPLOYEES_GROUP_READ)
@@ -26,7 +27,7 @@ export const EmployeeTable : FC = () => {
     } = useContext(EmployeeFormContext) as EmployeeFormContextType
 
     const {
-        committedFilter
+        committedFilter, setCommittedFilter
     } = useContext(EmployeeFilterContext) as EmployeeFilterContextType
 
     const { isLoading, error, data, mutate } = useGetEmployees(committedFilter)
@@ -37,6 +38,13 @@ export const EmployeeTable : FC = () => {
     const [deleting, setDeleting] = useState(false)
 
     const { props } = usePage<PageProps>()
+    
+    const handlePagination = (page: number) => {
+        setCommittedFilter((prevState) => ({
+            ...prevState,
+            page: page
+        }))
+    }
 
     const handleOpenFile = (employee: Employee) => {
         if (employee.bpjs_file) {
@@ -229,6 +237,11 @@ export const EmployeeTable : FC = () => {
                     )) }
                 </tbody>
             </Table>
+            <Pagination
+                page={data?.pagination?.current_page}
+                max={data?.pagination?.total_page}
+                onClick={handlePagination}
+            />
             { canDelete ? (
                 <ConfirmModal
                     message={`Are you sure you want to delete ${ deleteName ? deleteName : 'This employee' }?`}

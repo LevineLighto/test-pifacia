@@ -14,6 +14,7 @@ import { useHasPermission } from "@/hooks/permission";
 import { POSITIONS_GROUP_DELETE, POSITIONS_GROUP_READ, POSITIONS_GROUP_UPDATE } from "@/constants/permissions";
 import { Table } from "@/components/table";
 import { DataDisplay, StatusBadge } from "@/components/misc";
+import { Pagination } from "@/components/navigations";
 
 export const PositionTable : FC = () => {
     const canRead   = useHasPermission(POSITIONS_GROUP_READ)
@@ -26,7 +27,7 @@ export const PositionTable : FC = () => {
     } = useContext(PositionFormContext) as PositionFormContextType
 
     const {
-        committedFilter
+        committedFilter, setCommittedFilter
     } = useContext(PositionFilterContext) as PositionFilterContextType
 
     const { isLoading, error, data, mutate } = useGetPositions(committedFilter)
@@ -37,6 +38,13 @@ export const PositionTable : FC = () => {
     const [deleting, setDeleting] = useState(false)
 
     const { props } = usePage<PageProps>()
+    
+    const handlePagination = (page: number) => {
+        setCommittedFilter((prevState) => ({
+            ...prevState,
+            page: page
+        }))
+    }
 
     const handleEdit = (position : Position) => {
         setOpen(false)
@@ -221,6 +229,11 @@ export const PositionTable : FC = () => {
                     )) }
                 </tbody>
             </Table>
+            <Pagination
+                page={data?.pagination?.current_page}
+                max={data?.pagination?.total_page}
+                onClick={handlePagination}
+            />
             { canDelete ? (
                 <ConfirmModal
                     message={`Are you sure you want to delete ${ deleteName ? deleteName : 'This position' }?`}

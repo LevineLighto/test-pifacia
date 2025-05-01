@@ -19,7 +19,7 @@ class DivisionController extends Controller
             }
 
             return $next($request);
-        })->only(['get', 'find']);
+        })->only(['get', 'find', 'export']);
 
         $this->middleware(function ($request, $next) {
             if (!has_permissions(PermissionCode::DIVISIONS_ALL, PermissionCode::DIVISIONS_CREATE)) {
@@ -51,6 +51,11 @@ class DivisionController extends Controller
         $divisions = Division::filter($request)->paginate($request->limit ?: 50);
 
         return success($divisions);
+    }
+
+    public function export()
+    {
+        return (new DivisionLogic())->export();
     }
 
     public function find($id)

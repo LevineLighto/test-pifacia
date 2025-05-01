@@ -2,6 +2,13 @@ import { Division, DivisionRequest } from "@/hr/types";
 import { DELETE, POST, PUT } from "@/functions/fetch";
 import { route } from "ziggy-js";
 
+export const ExportDivision = (csrf_token: string) => {
+    return POST({
+        url         : route('hr.divisions.export'),
+        csrf_token  : csrf_token,
+    })
+}
+
 export const CreateDivision = (form: DivisionRequest, csrf_token: string) => {
     return POST<Division>({
         url         : route('hr.divisions.create'),

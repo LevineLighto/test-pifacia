@@ -19,7 +19,7 @@ class PositionController extends Controller
             }
 
             return $next($request);
-        })->only(['get', 'find']);
+        })->only(['get', 'find', 'export']);
 
         $this->middleware(function ($request, $next) {
             if (!has_permissions(PermissionCode::POSITIONS_ALL, PermissionCode::POSITIONS_CREATE)) {
@@ -53,6 +53,11 @@ class PositionController extends Controller
             ->paginate($request->limit ?: 50);
 
         return success($positions);
+    }
+
+    public function export()
+    {
+        return (new PositionLogic())->export();
     }
 
     public function find($id)

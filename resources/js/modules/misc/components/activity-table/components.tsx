@@ -5,17 +5,24 @@ import { useHasPermission } from "@/hooks/permission";
 import { ACTIVITY_READ } from "@/constants/permissions";
 import { Table } from "@/components/table";
 import { DataDisplay } from "@/components/misc";
+import { Pagination } from "@/components/navigations";
 
 export const ActivityTable : FC = () => {
     const canRead   = useHasPermission(ACTIVITY_READ)
 
     const {
-        committedFilter
+        committedFilter, setCommittedFilter
     } = useContext(ActivityFilterContext) as ActivityFilterContextType
 
     const { isLoading, error, data, mutate } = useGetActivity(committedFilter)
-
-
+    
+    const handlePagination = (page: number) => {
+        setCommittedFilter((prevState) => ({
+            ...prevState,
+            page: page
+        }))
+    }
+    
     if (!canRead) {
         return (<></>)
     }
@@ -90,6 +97,11 @@ export const ActivityTable : FC = () => {
                     )) }
                 </tbody>
             </Table>
+            <Pagination
+                page={data?.pagination?.current_page}
+                max={data?.pagination?.total_page}
+                onClick={handlePagination}
+            />
         </>
     )
 }
