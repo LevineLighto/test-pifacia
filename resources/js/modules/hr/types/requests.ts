@@ -29,8 +29,9 @@ export interface EmployeeRequest {
     email       : string
     password?   : string
     is_active   : boolean
+    joined_at   : Date | string
     bpjs        : Record<string, any>
-    bpjs_file   : File[]
+    bpjs_file?  : File[]
     scope?      : string[]
     position_id?: string
 }

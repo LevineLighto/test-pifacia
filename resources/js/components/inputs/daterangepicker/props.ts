@@ -5,8 +5,8 @@ export interface DaterangepickerProps extends Omit<DatePickerProps, 'onChange' |
     onChange?           : InputChangeHandler
     containerClassName? : string
     label?              : string
-    fromDate?           : string
+    fromDate?           : Date | string
     fromDateName?       : string
-    toDate?             : string
+    toDate?             : Date | string
     toDateName?         : string
 }

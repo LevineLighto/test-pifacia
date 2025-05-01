@@ -13,7 +13,7 @@ export const DropboxProvider : FC<PropsWithChildren> = ({ children }) => {
 
             const modified = [ ...prevState ]
             const index = modified.findIndex((file) => file.id == id)
-            if (index < 0) {
+            if (index > -1) {
                 modified[index] = {
                     ...modified[index],
                     files: []

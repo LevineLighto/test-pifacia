@@ -18,12 +18,13 @@ export interface Position extends BaseModel {
 }
 
 export interface Employee extends BaseModel {
-    name        : string
-    email       : string
-    is_active   : boolean
-    bpjs        : Record<string, any>
-    bpjs_file?  : string
-    position    : Position
-    division?   : Division
-    joined_at?  : string
+    name            : string
+    email           : string
+    is_active       : boolean
+    bpjs            : Record<string, any>
+    bpjs_file?      : string
+    position        : Position
+    division?       : Division
+    joined_at       : string
+    raw_joined_at   : string
 }

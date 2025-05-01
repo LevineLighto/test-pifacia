@@ -49,7 +49,9 @@ class EmployeeController extends Controller
 
     public function get(Request $request)
     {
-        $employees = Employee::filter($request)->paginate($request->limit ?: 50);
+        $employees = Employee::filter($request)
+            ->with(['position', 'position.division'])
+            ->paginate($request->limit ?: 50);
 
         return success($employees);
     }
@@ -75,7 +77,7 @@ class EmployeeController extends Controller
             error('File does not exist', 404);
         }
 
-        return response()->file(storage_path('app/' . $employee->bpjs_file));
+        return response()->file(storage_path('app/private/' . $employee->bpjs_file));
     }
 
     public function create(CreateEmployeeRequest $request)

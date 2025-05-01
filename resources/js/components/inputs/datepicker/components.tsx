@@ -11,6 +11,7 @@ export const Datepicker : FC<DatepickerProps> = ({
     label = '',
     required = false,
     id = '',
+    value,
     ...props
 }) => {
     const inputId = `datepicker-${name}-${id}`
@@ -75,6 +76,7 @@ export const Datepicker : FC<DatepickerProps> = ({
                 } ${
                     className
                 }`}
+                selected={value}
                 popperPlacement="bottom-start"
                 required={required}
                 { ...props as any }

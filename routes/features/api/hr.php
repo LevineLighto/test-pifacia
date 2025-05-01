@@ -31,6 +31,7 @@ Route::prefix('hr')->as('hr.')->middleware('auth')->group(function () {
 
         Route::get('/', [EmployeeController::class, 'get'])->name('get');
         Route::get('{id}', [EmployeeController::class, 'find'])->name('find');
+        Route::get('{id}/bpjs', [EmployeeController::class, 'bpjs'])->name('bpjs');
         Route::post('/', [EmployeeController::class, 'create'])->name('create');
         Route::put('{id}', [EmployeeController::class, 'update'])->name('update');
         Route::delete('{id}', [EmployeeController::class, 'delete'])->name('delete');

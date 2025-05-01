@@ -48,7 +48,9 @@ class PositionController extends Controller
 
     public function get(Request $request)
     {
-        $positions = Position::filter($request)->paginate($request->limit ?: 50);
+        $positions = Position::filter($request)
+            ->with(['division'])
+            ->paginate($request->limit ?: 50);
 
         return success($positions);
     }

@@ -53,6 +53,13 @@ class Employee extends BaseModel
             $query->where('position_id', $request->position_id);
         }
 
+        if (!empty($request->joined_from) && !empty($request->joined_to)) {
+            $from   = parse_date($request->joined_from)->startOfDay();
+            $to     = parse_date($request->joined_to)->endOfDay();
+
+            $query->whereBetween('joined_at', [$from, $to]);
+        }
+
         if (!empty($request->sort_by)) {
             $direction = !empty($request->sort_dir) ? $request->sort_dir : 'ASC';
             $query->orderBy($request->sort_by, $direction);

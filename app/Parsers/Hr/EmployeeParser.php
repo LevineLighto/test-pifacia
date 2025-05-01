@@ -18,7 +18,7 @@ class EmployeeParser extends BaseParser
             'email'         => $data->email,
             'is_active'     => $data->is_active,
             'bpjs'          => $data->bpjs,
-            'bpjs_file'     => $data->bpjs_file,
+            'bpjs_file'     => !empty($data->bpjs_file) ? route('hr.employees.bpjs', $data->id) : '',
             'position'      => PositionParser::brief($data->position),
             'division'      => DivisionParser::brief($data->position->division),
             'joined_at'     => format_date($data->joined_at),
@@ -46,8 +46,15 @@ class EmployeeParser extends BaseParser
             'name'          => $data->name,
             'email'         => $data->email,
             'is_active'     => $data->is_active,
+            'bpjs'          => $data->bpjs,
+            'bpjs_file'     => !empty($data->bpjs_file) ? route('hr.employees.bpjs', $data->id) : '',
             'position'      => PositionParser::brief($data->position),
             'joined_at'     => format_date($data->joined_at),
+            'raw_joined_at' => format_date($data->joined_at),
+            'created_at'    => format_date($data->created_at, true),
+            'created_by'    => format_subject($data),
+            'updated_at'    => format_date($data->updated_at, true),
+            'updated_by'    => format_subject($data, 'updated_by'),
         ];
     }
 }

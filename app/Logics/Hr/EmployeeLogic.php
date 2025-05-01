@@ -10,6 +10,7 @@ use App\Models\Hr\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class EmployeeLogic
@@ -36,7 +37,7 @@ class EmployeeLogic
                 error('Unable to find position', 404);
             }
 
-            $user = auth_user();
+            $active_user = auth_user();
 
             $fileName   = '';
             $file       = null;
@@ -52,8 +53,8 @@ class EmployeeLogic
                 'email'             => $request->email,
                 'password'          => Hash::make($request->password),
                 'role_id'           => Role::ofCode('U')->first()->id,
-                'created_by'        => $user->id,
-                'created_by_name'   => $user->name,
+                'created_by'        => $active_user->id,
+                'created_by_name'   => $active_user->name,
             ]);
             
             $this->employee = Employee::create([
@@ -65,8 +66,8 @@ class EmployeeLogic
                 'joined_at'         => parse_date($request->joined_at),
                 'user_id'           => $user->id,
                 'position_id'       => $position->id,
-                'created_by'        => $user->id,
-                'created_by_name'   => $user->name,
+                'created_by'        => $active_user->id,
+                'created_by_name'   => $active_user->name,
             ]);
 
             $user->setActivityPropertyAttributes(ActivityAction::CREATE)
@@ -76,6 +77,7 @@ class EmployeeLogic
                 ->saveActivity("Create new employee: {$this->employee->name} [{$this->employee->id}]");
 
             if ($file) {
+                Log::debug($file);
                 $file->storeAs($fileName);
             }
 
@@ -105,7 +107,7 @@ class EmployeeLogic
                 error('Unable to find position', 404);
             }
 
-            $user = auth_user();
+            $active_user = auth_user();
 
             $oldFileName    = $this->employee->bpjs_file;
             $fileName       = $this->employee->bpjs_file;
@@ -124,8 +126,8 @@ class EmployeeLogic
             $user->update([
                 'name'              => $request->name,
                 'email'             => $request->email,
-                'updated_by'        => $user->id,
-                'updated_by_name'   => $user->name,
+                'updated_by'        => $active_user->id,
+                'updated_by_name'   => $active_user->name,
             ]);
 
             $user->setActivityPropertyAttributes(ActivityAction::UPDATE)
@@ -141,14 +143,15 @@ class EmployeeLogic
                 'bpjs_file'         => $fileName,
                 'joined_at'         => parse_date($request->joined_at),
                 'position_id'       => $position->id,
-                'updated_by'        => $user->id,
-                'updated_by_name'   => $user->name,
+                'updated_by'        => $active_user->id,
+                'updated_by_name'   => $active_user->name,
             ]);
 
             $this->employee->setActivityPropertyAttributes(ActivityAction::UPDATE)
                 ->saveActivity("Update employee: {$this->employee->name} [{$this->employee->id}]");
 
             if ($file) {
+                Log::debug($file);
                 $file->storeAs($fileName);
 
                 if ($oldFileName && Storage::exists($oldFileName)) {
@@ -172,8 +175,8 @@ class EmployeeLogic
         DB::beginTransaction();
         try {
 
-            $user = auth_user();
-            if ($this->employee->user_id == $user->id) {
+            $active_user = auth_user();
+            if ($this->employee->user_id == $active_user->id) {
                 error('Unable to delete your own self');
             }
 
@@ -184,8 +187,8 @@ class EmployeeLogic
             
             $user->update([
                 'deleted_at'        => now(),
-                'deleted_by'        => $user->id,
-                'deleted_by_name'   => $user->name,
+                'deleted_by'        => $active_user->id,
+                'deleted_by_name'   => $active_user->name,
             ]);
 
             $user->setActivityPropertyAttributes(ActivityAction::DELETE)
@@ -195,8 +198,8 @@ class EmployeeLogic
             
             $this->employee->update([
                 'deleted_at'        => now(),
-                'deleted_by'        => $user->id,
-                'deleted_by_name'   => $user->name,
+                'deleted_by'        => $active_user->id,
+                'deleted_by_name'   => $active_user->name,
             ]);
 
             $this->employee->setActivityPropertyAttributes(ActivityAction::DELETE)

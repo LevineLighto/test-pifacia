@@ -2,7 +2,7 @@ import { Employee, EmployeeRequest } from "@/hr/types";
 import { DELETE, POST, PUT } from "@/functions/fetch";
 import { route } from "ziggy-js";
 
-export const CreateEmployee = (form: EmployeeRequest, csrf_token: string) => {
+export const CreateEmployee = (form: FormData, csrf_token: string) => {
     return POST<Employee>({
         url         : route('hr.employees.create'),
         data        : form,
@@ -10,7 +10,7 @@ export const CreateEmployee = (form: EmployeeRequest, csrf_token: string) => {
     })
 }
 
-export const UpdateEmployee = (id: string, form: EmployeeRequest, csrf_token: string) => {
+export const UpdateEmployee = (id: string, form: FormData, csrf_token: string) => {
     return PUT<Employee>({
         url         : route('hr.employees.update', id),
         data        : form,

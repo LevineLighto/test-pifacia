@@ -160,7 +160,11 @@ const DropboxDisplay : FC<DropboxDisplayProps> = ({
 
     return (
         <section
-            className="grid gap-2 grid-cols-2"
+            className={`${
+                "grid gap-2"
+            } ${
+                multiple ? 'grid-cols-2' : 'grid-cols-1'
+            }`}
         >
             { files?.map((file, index) => (
                 <div
