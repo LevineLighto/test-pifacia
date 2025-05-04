@@ -1,3 +1,4 @@
+import { DropboxProvider } from "@/components/inputs";
 import { AppLayout } from "@/components/layouts";
 import { PositionFilterProvider, PositionForm, PositionFormProvider, PositionSection } from "@/hr/components";
 import { Head } from "@inertiajs/react";
@@ -9,12 +10,14 @@ const PositionsPage : FC = () => (
             title="Positions"
         />
         <AppLayout>
-            <PositionFormProvider>
-                <PositionFilterProvider>
-                    <PositionSection/>
-                    <PositionForm/>
-                </PositionFilterProvider>
-            </PositionFormProvider>
+            <DropboxProvider>
+                <PositionFormProvider>
+                    <PositionFilterProvider>
+                        <PositionSection/>
+                        <PositionForm/>
+                    </PositionFilterProvider>
+                </PositionFormProvider>
+            </DropboxProvider>
         </AppLayout>
     </>
 )

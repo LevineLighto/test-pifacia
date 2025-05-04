@@ -4,7 +4,6 @@ namespace App\Jobs\Traits;
 
 use App\Constants\Activity\ActivityAction;
 use App\Models\Misc\ExportJob;
-use Illuminate\Support\Facades\Log;
 
 trait Exporter
 {
@@ -27,8 +26,12 @@ trait Exporter
             'success'       => $success
         ]);
 
+        $readableModel = explode('\\', $model);
+        $readableModel = $readableModel[count($readableModel) - 1];
+
         $job->setActivityPropertyAttributes(ActivityAction::UPDATE)
-            ->saveActivity($success ? "Successfully exported {$model} data" : "Failed to export {$model} data");
+            ->setUser($this->requestor)
+            ->saveActivity($success ? "Successfully exported {$readableModel} data" : "Failed to export {$readableModel} data");
 
     }
 }

@@ -1,22 +1,22 @@
 import { FC, ReactEventHandler, useContext, useEffect, useRef, useState } from "react";
-import { DivisionImportProps } from "./props";
+import { PositionImportProps } from "./props";
 import { Dropbox, DropboxContext, DropboxContextType, InputChangeHandler, SearchableSelect } from "@/components/inputs";
 import { Form } from "@/components/forms";
 import { Button } from "@/components/buttons";
-import { DivisionImportRequest, ImportUploadRequest } from "@/hr/types";
-import { ImportDivision, UploadImportDivision } from "@/hr/functions/requests";
+import { PositionImportRequest, ImportUploadRequest } from "@/hr/types";
+import { ImportPosition, UploadImportPosition } from "@/hr/functions/requests";
 import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { toast } from "react-toastify";
 import { X } from "react-feather";
+import { POSITIONS_GROUP_CREATE } from "@/constants/permissions";
 import { useHasPermission } from "@/hooks/permission";
-import { DIVISIONS_GROUP_CREATE } from "@/constants/permissions";
 
-export const DivisionImport : FC<DivisionImportProps> = ({
+export const PositionImport : FC<PositionImportProps> = ({
     open,
     onClose
 }) => {
-    const canCreate = useHasPermission(DIVISIONS_GROUP_CREATE)
+    const canCreate = useHasPermission(POSITIONS_GROUP_CREATE)
 
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState<'upload' | 'select'>('upload')
@@ -33,13 +33,14 @@ export const DivisionImport : FC<DivisionImportProps> = ({
         file: []
     })
 
-    const [importForm, setImportForm] = useState<DivisionImportRequest>({
+    const [importForm, setImportForm] = useState<PositionImportRequest>({
         file: '',
         headings: {
             name        : '',
             code        : '',
             scope       : '',
             is_active   : '',
+            division    : ''
         }
     })
 
@@ -55,6 +56,7 @@ export const DivisionImport : FC<DivisionImportProps> = ({
                 code        : '',
                 scope       : '',
                 is_active   : '',
+                division    : '',
             }
         })
     }
@@ -101,7 +103,7 @@ export const DivisionImport : FC<DivisionImportProps> = ({
         const form = new FormData
         form.append('file', uploadForm.file[0])
 
-        UploadImportDivision(form, props.csrf_token)
+        UploadImportPosition(form, props.csrf_token)
             .then(response => {
                 if (response.status.code != 200) {
                     return
@@ -130,7 +132,7 @@ export const DivisionImport : FC<DivisionImportProps> = ({
 
         setLoading(true)
 
-        ImportDivision(importForm, props.csrf_token)
+        ImportPosition(importForm, props.csrf_token)
             .then(response => {
                 if (response.status.code != 200) {
                     return
@@ -167,7 +169,7 @@ export const DivisionImport : FC<DivisionImportProps> = ({
             ref={dialogRef}
         >
             <header className="pb-2 mb-6 border-b border-b-slate-200 flex justify-between">
-                <h3 className="varela-round text-2xl">Import Division</h3>
+                <h3 className="varela-round text-2xl">Import Position</h3>
                 <X
                     strokeWidth={4}
                     className={`${
@@ -228,6 +230,15 @@ export const DivisionImport : FC<DivisionImportProps> = ({
                         label="Active Status Column"
                         name="is_active"
                         value={importForm.headings.is_active}
+                        onChange={handleImportChange}
+                    />
+                    <SearchableSelect 
+                        data={columns}
+                        itemLabelKey="label"
+                        required
+                        label="Division Column"
+                        name="division"
+                        value={importForm.headings.division}
                         onChange={handleImportChange}
                     />
                     <SearchableSelect 

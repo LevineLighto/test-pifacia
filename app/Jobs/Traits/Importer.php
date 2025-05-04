@@ -4,7 +4,6 @@ namespace App\Jobs\Traits;
 
 use App\Constants\Activity\ActivityAction;
 use App\Models\Misc\ImportJob;
-use Illuminate\Support\Facades\Log;
 
 trait Importer
 {

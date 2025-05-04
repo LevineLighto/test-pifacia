@@ -4,24 +4,28 @@ namespace App\Logics\Hr;
 
 use App\Constants\Activity\ActivityAction;
 use App\Jobs\Hr\ExportEmployeeJob;
+use App\Jobs\Hr\ImportEmployeeJob;
+use App\Logics\Hr\Traits\CanImport;
 use App\Models\Account\Role;
 use App\Models\Account\User;
 use App\Models\Hr\Employee;
 use App\Models\Hr\Position;
 use App\Models\Misc\ExportJob;
+use App\Models\Misc\ImportJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class EmployeeLogic
 {
+    use CanImport;
+
     private $bpjsLocation = 'employees/bpjs';
 
     public function __construct(public ?Employee $employee = null)
     {
-        
+        $this->model = Employee::class;
     }
 
     public function create(Request $request) : mixed
@@ -248,6 +252,38 @@ class EmployeeLogic
 
         } catch (\Throwable $th) {
             
+            DB::rollBack();
+            throw $th;
+
+        }
+    }
+
+    public function import(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            $this->checkJob();
+            
+            $user = auth_user();
+
+            /** @var ImportJob */
+            $job = ImportJob::create([
+                'model'             => $this->model,
+                'created_by'        => $user->id,
+                'created_by_name'   => $user->name,
+            ]);
+
+            $job->setActivityPropertyAttributes(ActivityAction::CREATE)
+                ->saveActivity("Importing employee data");
+
+            ImportEmployeeJob::dispatch($user, $request->input('file'), $request->headings);
+
+            DB::commit();
+            return success();
+            
+        } catch (\Throwable $th) {
+              
             DB::rollBack();
             throw $th;
 

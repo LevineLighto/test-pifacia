@@ -29,7 +29,7 @@ class DivisionController extends Controller
             }
 
             return $next($request);
-        })->only(['create']);
+        })->only(['create', 'uploadImport', 'import']);
 
         $this->middleware(function ($request, $next) {
             if (!has_permissions(PermissionCode::DIVISIONS_ALL, PermissionCode::DIVISIONS_UPDATE)) {

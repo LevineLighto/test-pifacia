@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\Hr;
 
 use App\Constants\Auth\PermissionCode;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Hr\PositionImportRequest;
 use App\Http\Requests\Hr\PositionRequest;
+use App\Http\Requests\Hr\UploadImportRequest;
 use App\Logics\Hr\PositionLogic;
 use App\Models\Hr\Position;
 use Illuminate\Http\Request;
@@ -27,7 +29,7 @@ class PositionController extends Controller
             }
 
             return $next($request);
-        })->only(['create']);
+        })->only(['create', 'uploadImport', 'import']);
 
         $this->middleware(function ($request, $next) {
             if (!has_permissions(PermissionCode::POSITIONS_ALL, PermissionCode::POSITIONS_UPDATE)) {
@@ -93,5 +95,15 @@ class PositionController extends Controller
         }
 
         return (new PositionLogic($position))->delete();
+    }
+
+    public function uploadImport(UploadImportRequest $request)
+    {
+        return (new PositionLogic())->uploadImport($request);
+    }
+
+    public function import(PositionImportRequest $request)
+    {
+        return (new PositionLogic())->import($request);
     }
 }

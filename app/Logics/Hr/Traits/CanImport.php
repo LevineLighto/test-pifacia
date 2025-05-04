@@ -4,7 +4,6 @@ namespace App\Logics\Hr\Traits;
 
 use App\Models\Misc\ImportJob;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\HeadingRowImport;
 
 trait CanImport {

@@ -3,7 +3,7 @@
 import { FC, useContext, useState } from "react";
 import { PositionFormContext, PositionFormContextType } from "../position-form";
 import { Button } from "@/components/buttons";
-import { Download, Plus } from "react-feather";
+import { Download, Plus, Upload } from "react-feather";
 import { PositionFilter, PositionFilterContext, PositionFilterContextType } from "../position-filter";
 import { useGetPositions } from "@/hr/hooks";
 import { PositionTable } from "../position-table/components";
@@ -14,11 +14,13 @@ import { PageProps } from "@/types";
 import { ExportPosition } from "@/hr/functions/requests";
 import { toast } from "react-toastify";
 import { LoadingModal } from "@/components/modals";
+import { PositionImport } from "../position-import";
 
 export const PositionSection : FC = () => {
     const canCreate = useHasPermission(POSITIONS_GROUP_CREATE)
     const canRead   = useHasPermission(POSITIONS_GROUP_READ)
 
+    const [importOpen, setImportOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const {props} = usePage<PageProps>()
 
@@ -35,6 +37,14 @@ export const PositionSection : FC = () => {
     const handleCreate = () => {
         setOpen(true)
         setOnSuccess(() => mutate)
+    }
+    
+    const handleImport = () => {
+        setImportOpen(true)
+    }
+
+    const handleImportClose = () => {
+        setImportOpen(false)
     }
 
     const handleExport = () => {
@@ -76,18 +86,32 @@ export const PositionSection : FC = () => {
                         </Button>
                     ) : (<></>) }
                     { canCreate ? (
-                        <Button
-                            type="button"
-                            className="flex items-center gap-1"
-                            onClick={handleCreate}
-                        >
-                            <Plus size="1.5rem"/> Create
-                        </Button>
+                        <>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="flex items-center gap-1"
+                                onClick={handleImport}
+                            >
+                                <Upload size="1.5rem"/> Import
+                            </Button>
+                            <Button
+                                type="button"
+                                className="flex items-center gap-1"
+                                onClick={handleCreate}
+                            >
+                                <Plus size="1.5rem"/> Create
+                            </Button>
+                        </>
                     ) : (<></>) }
                 </div>
             </header>
             <PositionFilter/>
             <PositionTable/>
+            <PositionImport
+                open={importOpen}
+                onClose={handleImportClose}
+            />
             <LoadingModal
                 open={loading}
             />

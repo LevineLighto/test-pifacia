@@ -4,17 +4,22 @@ namespace App\Logics\Hr;
 
 use App\Constants\Activity\ActivityAction;
 use App\Jobs\Hr\ExportPositionJob;
+use App\Jobs\Hr\ImportPositionJob;
+use App\Logics\Hr\Traits\CanImport;
 use App\Models\Hr\Division;
 use App\Models\Hr\Position;
 use App\Models\Misc\ExportJob;
+use App\Models\Misc\ImportJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PositionLogic
 {
+    use CanImport;
+
     public function __construct(public ?Position $position = null)
     {
-        
+        $this->model = Position::class;
     }
 
     public function create(Request $request) : mixed
@@ -152,6 +157,38 @@ class PositionLogic
 
         } catch (\Throwable $th) {
             
+            DB::rollBack();
+            throw $th;
+
+        }
+    }
+
+    public function import(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            $this->checkJob();
+            
+            $user = auth_user();
+
+            /** @var ImportJob */
+            $job = ImportJob::create([
+                'model'             => $this->model,
+                'created_by'        => $user->id,
+                'created_by_name'   => $user->name,
+            ]);
+
+            $job->setActivityPropertyAttributes(ActivityAction::CREATE)
+                ->saveActivity("Importing position data");
+
+            ImportPositionJob::dispatch($user, $request->input('file'), $request->headings);
+
+            DB::commit();
+            return success();
+            
+        } catch (\Throwable $th) {
+              
             DB::rollBack();
             throw $th;
 

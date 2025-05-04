@@ -8,7 +8,7 @@ const DashboardPage : FC = () => (
             title="Dashboard"
         />
         <AppLayout>
-            WOOOOO
+            I am DASHBOARD!
         </AppLayout>
     </>
 )

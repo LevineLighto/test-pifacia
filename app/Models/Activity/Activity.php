@@ -6,7 +6,6 @@ use App\Models\BaseModel;
 use App\Parsers\Activity\ActivityParser;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class Activity extends BaseModel
 {

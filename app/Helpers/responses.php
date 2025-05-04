@@ -5,7 +5,6 @@ use App\Parsers\BaseParser;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Log;
 
 if (!function_exists('formatted_response')) {
     function formatted_response(mixed $data = null, 

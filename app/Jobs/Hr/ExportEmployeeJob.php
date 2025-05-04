@@ -41,7 +41,7 @@ class ExportEmployeeJob implements ShouldQueue
                         $employee->name,
                         $employee->email,
                         $employee->is_active ? 'Yes' : 'No',
-                        $employee->bpjs?->number ?: '',
+                        !empty($employee->bpjs) ? $employee->bpjs['number'] : '',
                         format_date($employee->joined_at),
                         $employee->position->name,
                         $employee->position->division->name,

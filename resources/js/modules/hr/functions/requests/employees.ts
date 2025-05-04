@@ -1,4 +1,4 @@
-import { Employee, EmployeeRequest } from "@/hr/types";
+import { Employee, EmployeeImportRequest, EmployeeRequest, UploadImportResponse } from "@/hr/types";
 import { DELETE, POST, PUT } from "@/functions/fetch";
 import { route } from "ziggy-js";
 
@@ -28,6 +28,22 @@ export const UpdateEmployee = (id: string, form: FormData, csrf_token: string) =
 export const DeleteEmployee = (id: string, csrf_token: string) => {
     return DELETE({
         url         : route('hr.employees.delete', id),
+        csrf_token  : csrf_token,
+    })
+}
+
+export const UploadImportEmployee = (form: FormData, csrf_token: string) => {
+    return POST<UploadImportResponse>({
+        url         : route('hr.employees.import.upload'),
+        data        : form,
+        csrf_token  : csrf_token,
+    })
+}
+
+export const ImportEmployee = (form: EmployeeImportRequest, csrf_token: string) => {
+    return POST({
+        url         : route('hr.employees.import'),
+        data        : form,
         csrf_token  : csrf_token,
     })
 }

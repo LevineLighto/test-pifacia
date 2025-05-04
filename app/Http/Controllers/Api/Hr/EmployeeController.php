@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Hr;
 use App\Constants\Auth\PermissionCode;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Hr\CreateEmployeeRequest;
+use App\Http\Requests\Hr\EmployeeImportRequest;
 use App\Http\Requests\Hr\UpdateEmployeeRequest;
+use App\Http\Requests\Hr\UploadImportRequest;
 use App\Logics\Hr\EmployeeLogic;
 use App\Models\Hr\Employee;
 use Illuminate\Http\Request;
@@ -28,7 +30,7 @@ class EmployeeController extends Controller
             }
 
             return $next($request);
-        })->only(['create']);
+        })->only(['create', 'uploadImport', 'import']);
 
         $this->middleware(function ($request, $next) {
             if (!has_permissions(PermissionCode::EMPLOYEES_ALL, PermissionCode::EMPLOYEES_UPDATE)) {
@@ -108,5 +110,15 @@ class EmployeeController extends Controller
         }
 
         return (new EmployeeLogic($employee))->delete();
+    }
+
+    public function uploadImport(UploadImportRequest $request)
+    {
+        return (new EmployeeLogic())->uploadImport($request);
+    }
+
+    public function import(EmployeeImportRequest $request)
+    {
+        return (new EmployeeLogic())->import($request);
     }
 }

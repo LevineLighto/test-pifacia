@@ -62,6 +62,8 @@ export const Pagination : FC<PaginationProps> = ({
                 paginationClasses.display
             } ${
                 paginationClasses.flex
+            } ${
+                paginationClasses.gap
             }`}
         >
             <Button

@@ -25,6 +25,10 @@ class DivisionImport implements ToCollection, WithHeadingRow, WithChunkReading
         try {
 
             foreach ($collection as $row) {
+                if (Division::where('name', 'ILIKE', $row[$this->headings['name']])->exists()) {
+                    continue;
+                }
+
                 /** @var Division */
                 $division = Division::create([
                     'name'              => $row[$this->headings['name']],

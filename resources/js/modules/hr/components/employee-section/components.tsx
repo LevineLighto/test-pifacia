@@ -3,7 +3,7 @@
 import { FC, useContext, useState } from "react";
 import { EmployeeFormContext, EmployeeFormContextType } from "../employee-form";
 import { Button } from "@/components/buttons";
-import { Download, Plus } from "react-feather";
+import { Download, Plus, Upload } from "react-feather";
 import { EmployeeFilter, EmployeeFilterContext, EmployeeFilterContextType } from "../employee-filter";
 import { useGetEmployees } from "@/hr/hooks";
 import { EmployeeTable } from "../employee-table/components";
@@ -14,11 +14,13 @@ import { usePage } from "@inertiajs/react";
 import { ExportEmployee } from "@/hr/functions/requests";
 import { toast } from "react-toastify";
 import { LoadingModal } from "@/components/modals";
+import { EmployeeImport } from "../employee-import";
 
 export const EmployeeSection : FC = () => {
     const canCreate = useHasPermission(EMPLOYEES_GROUP_CREATE)
     const canRead   = useHasPermission(EMPLOYEES_GROUP_READ)
 
+    const [importOpen, setImportOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const {props} = usePage<PageProps>()
 
@@ -35,6 +37,14 @@ export const EmployeeSection : FC = () => {
     const handleCreate = () => {
         setOpen(true)
         setOnSuccess(() => mutate)
+    }
+
+    const handleImport = () => {
+        setImportOpen(true)
+    }
+
+    const handleImportClose = () => {
+        setImportOpen(false)
     }
 
     const handleExport = () => {
@@ -57,7 +67,6 @@ export const EmployeeSection : FC = () => {
             })
     }
 
-
     return (
         <section>
             <header className="flex flex-wrap justify-between gap-4 mb-6">
@@ -76,18 +85,32 @@ export const EmployeeSection : FC = () => {
                         </Button>
                     ) : (<></>) }
                     { canCreate ? (
-                        <Button
-                            type="button"
-                            className="flex items-center gap-1"
-                            onClick={handleCreate}
-                        >
-                            <Plus size="1.5rem"/> Create
-                        </Button>
+                        <>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="flex items-center gap-1"
+                                onClick={handleImport}
+                            >
+                                <Upload size="1.5rem"/> Import
+                            </Button>
+                            <Button
+                                type="button"
+                                className="flex items-center gap-1"
+                                onClick={handleCreate}
+                            >
+                                <Plus size="1.5rem"/> Create
+                            </Button>
+                        </>
                     ) : (<></>) }
                 </div>
             </header>
             <EmployeeFilter/>
             <EmployeeTable/>
+            <EmployeeImport
+                open={importOpen}
+                onClose={handleImportClose}
+            />
             <LoadingModal
                 open={loading}
             />
