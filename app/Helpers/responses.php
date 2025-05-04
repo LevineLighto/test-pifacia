@@ -5,6 +5,7 @@ use App\Parsers\BaseParser;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 if (!function_exists('formatted_response')) {
     function formatted_response(mixed $data = null, 
@@ -101,9 +102,14 @@ if (!function_exists('parse')) {
 
 if (!function_exists('parse_array')) {
     function parse_array (array $data) : array | null {
+        if (!array_is_list($data)) {
+            return $data;
+        }
+
         if (!count($data)) {
             return null;
         }
+
 
         if (empty($data[0])) {
             return null;

@@ -1,3 +1,4 @@
+import { DropboxProvider } from "@/components/inputs";
 import { AppLayout } from "@/components/layouts";
 import { DivisionFilterProvider, DivisionForm, DivisionFormProvider, DivisionSection } from "@/hr/components";
 import { Head } from "@inertiajs/react";
@@ -9,12 +10,14 @@ const DivisionsPage : FC = () => (
             title="Divisions"
         />
         <AppLayout>
-            <DivisionFormProvider>
-                <DivisionFilterProvider>
-                    <DivisionSection/>
-                    <DivisionForm/>
-                </DivisionFilterProvider>
-            </DivisionFormProvider>
+            <DropboxProvider>
+                <DivisionFormProvider>
+                    <DivisionFilterProvider>
+                        <DivisionSection/>
+                        <DivisionForm/>
+                    </DivisionFilterProvider>
+                </DivisionFormProvider>
+            </DropboxProvider>
         </AppLayout>
     </>
 )

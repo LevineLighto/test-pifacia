@@ -3,7 +3,7 @@
 import { FC, useContext, useState } from "react";
 import { DivisionFormContext, DivisionFormContextType } from "../division-form";
 import { Button } from "@/components/buttons";
-import { Download, Plus } from "react-feather";
+import { Download, Plus, Upload } from "react-feather";
 import { DivisionFilter, DivisionFilterContext, DivisionFilterContextType } from "../division-filter";
 import { useGetDivisions } from "@/hr/hooks";
 import { DivisionTable } from "../division-table/components";
@@ -14,11 +14,13 @@ import { usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { toast } from "react-toastify";
 import { LoadingModal } from "@/components/modals";
+import { DivisionImport } from "../division-import";
 
 export const DivisionSection : FC = () => {
     const canCreate = useHasPermission(DIVISIONS_GROUP_CREATE)
     const canRead   = useHasPermission(DIVISIONS_GROUP_READ)
 
+    const [importOpen, setImportOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const {props} = usePage<PageProps>()
 
@@ -35,6 +37,14 @@ export const DivisionSection : FC = () => {
     const handleCreate = () => {
         setOpen(true)
         setOnSuccess(() => mutate)
+    }
+
+    const handleImport = () => {
+        setImportOpen(true)
+    }
+
+    const handleImportClose = () => {
+        setImportOpen(false)
     }
 
     const handleExport = () => {
@@ -75,18 +85,32 @@ export const DivisionSection : FC = () => {
                         </Button>
                     ) : (<></>) }
                     { canCreate ? (
-                        <Button
-                            type="button"
-                            className="flex items-center gap-1"
-                            onClick={handleCreate}
-                        >
-                            <Plus size="1.5rem"/> Create
-                        </Button>
+                        <>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                className="flex items-center gap-1"
+                                onClick={handleImport}
+                            >
+                                <Upload size="1.5rem"/> Import
+                            </Button>
+                            <Button
+                                type="button"
+                                className="flex items-center gap-1"
+                                onClick={handleCreate}
+                            >
+                                <Plus size="1.5rem"/> Create
+                            </Button>
+                        </>
                     ) : (<></>) }
                 </div>
             </header>
             <DivisionFilter/>
             <DivisionTable/>
+            <DivisionImport
+                open={importOpen}
+                onClose={handleImportClose}
+            />
             <LoadingModal
                 open={loading}
             />

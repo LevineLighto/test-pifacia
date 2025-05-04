@@ -11,6 +11,8 @@ Route::prefix('hr')->as('hr.')->middleware('auth')->group(function () {
 
         Route::get('/', [DivisionController::class, 'get'])->name('get');
         Route::post('export', [DivisionController::class, 'export'])->name('export');
+        Route::post('import', [DivisionController::class, 'import'])->name('import');
+        Route::post('import/upload', [DivisionController::class, 'uploadImport'])->name('import.upload');
         Route::get('{id}', [DivisionController::class, 'find'])->name('find');
         Route::post('/', [DivisionController::class, 'create'])->name('create');
         Route::put('{id}', [DivisionController::class, 'update'])->name('update');

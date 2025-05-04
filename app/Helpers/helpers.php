@@ -82,6 +82,21 @@ if (!function_exists('parse_date')) {
     }
 }
 
+if (!function_exists('parse_bool')) {
+    function parse_bool(mixed $value) : bool {
+        if (is_bool($value)) {
+            return $value;
+        }
+
+        if (is_string($value)) {
+            $value = strtolower($value);
+            return $value == 'yes' || $value == 'true' || $value == '1';
+        }
+        
+        return boolval($value);
+    }
+}
+
 if (!function_exists('has_permissions')) {
     function has_permissions (string ...$permissions) : bool {
         $user = auth_user();

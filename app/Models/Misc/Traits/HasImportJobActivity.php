@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Models\Misc\Traits;
+
+use App\Constants\Activity\ActivityType;
+use App\Models\Activity\Traits\HasActivity;
+
+trait HasImportJobActivity
+{
+    use HasActivity;
+
+    public function getActivityType(): string
+    {
+        return ActivityType::MISC;
+    }
+
+    public function getActivitySubType(): string
+    {
+        return ActivityType::IMPORT;
+    }
+
+    public function getActivityPropertyCreate()
+    {
+        return $this->getParser();
+    }
+
+    public function getActivityPropertyUpdate()
+    {
+        return $this->getParser();
+    }
+
+    public function getActivityPropertyDelete()
+    {
+        return array_merge(
+            $this->getParser(),
+            [ 'deleted_at' => format_date($this->deleted_at, true) ]
+        );
+    }
+
+
+    /** --- FUNCTIONS --- */
+
+    /**
+     * @return array|null
+     */
+    private function getParser()
+    {
+        $this->refresh();
+
+        return $this->parser::first($this);
+    }
+}

@@ -3,21 +3,21 @@
 namespace App\Jobs\Traits;
 
 use App\Constants\Activity\ActivityAction;
-use App\Models\Misc\ExportJob;
+use App\Models\Misc\ImportJob;
 use Illuminate\Support\Facades\Log;
 
-trait Exporter
+trait Importer
 {
     private function complete(string $model, bool $success)
     {
-        /** @var ExportJob */
-        $job = ExportJob::where('created_by', $this->requestor->id)
+        /** @var ImportJob */
+        $job = ImportJob::where('created_by', $this->uploader->id)
             ->where('model', $model)
             ->whereNull('completed_at')
             ->first();
 
         if (empty($job)) {
-            error('Invalid export');
+            error('Invalid import');
         }
 
         $job->setOldActivityPropertyAttributes(ActivityAction::UPDATE);
@@ -28,7 +28,7 @@ trait Exporter
         ]);
 
         $job->setActivityPropertyAttributes(ActivityAction::UPDATE)
-            ->saveActivity($success ? "Successfully exported {$model} data" : "Failed to export {$model} data");
+            ->saveActivity($success ? "Successfully imported {$model} data" : "Failed to import {$model} data");
 
     }
 }

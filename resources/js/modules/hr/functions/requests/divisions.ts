@@ -1,4 +1,4 @@
-import { Division, DivisionRequest } from "@/hr/types";
+import { Division, DivisionImportRequest, DivisionRequest, UploadImportResponse } from "@/hr/types";
 import { DELETE, POST, PUT } from "@/functions/fetch";
 import { route } from "ziggy-js";
 
@@ -28,6 +28,22 @@ export const UpdateDivision = (id: string, form: DivisionRequest, csrf_token: st
 export const DeleteDivision = (id: string, csrf_token: string) => {
     return DELETE({
         url         : route('hr.divisions.delete', id),
+        csrf_token  : csrf_token,
+    })
+}
+
+export const UploadImportDivision = (form: FormData, csrf_token: string) => {
+    return POST<UploadImportResponse>({
+        url         : route('hr.divisions.import.upload'),
+        data        : form,
+        csrf_token  : csrf_token,
+    })
+}
+
+export const ImportDivision = (form: DivisionImportRequest, csrf_token: string) => {
+    return POST({
+        url         : route('hr.divisions.import'),
+        data        : form,
         csrf_token  : csrf_token,
     })
 }

@@ -4,16 +4,21 @@ namespace App\Logics\Hr;
 
 use App\Constants\Activity\ActivityAction;
 use App\Jobs\Hr\ExportDivisionJob;
+use App\Jobs\Hr\ImportDivisionJob;
+use App\Logics\Hr\Traits\CanImport;
 use App\Models\Hr\Division;
 use App\Models\Misc\ExportJob;
+use App\Models\Misc\ImportJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DivisionLogic
 {
+    use CanImport;
+
     public function __construct(public ?Division $division = null)
     {
-        
+        $this->model = Division::class;
     }
 
     public function create(Request $request) : mixed
@@ -139,6 +144,38 @@ class DivisionLogic
 
         } catch (\Throwable $th) {
             
+            DB::rollBack();
+            throw $th;
+
+        }
+    }
+
+    public function import(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            
+            $this->checkJob();
+            
+            $user = auth_user();
+
+            /** @var ImportJob */
+            $job = ImportJob::create([
+                'model'             => $this->model,
+                'created_by'        => $user->id,
+                'created_by_name'   => $user->name,
+            ]);
+
+            $job->setActivityPropertyAttributes(ActivityAction::CREATE)
+                ->saveActivity("Importing division data");
+
+            ImportDivisionJob::dispatch($user, $request->input('file'), $request->headings);
+
+            DB::commit();
+            return success();
+            
+        } catch (\Throwable $th) {
+              
             DB::rollBack();
             throw $th;
 

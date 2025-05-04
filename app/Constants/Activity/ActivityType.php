@@ -18,4 +18,5 @@ class ActivityType extends BaseCodeConstant
 
     const MISC      = 'misc';
     const EXPORT    = 'export';
+    const IMPORT    = 'import';
 }

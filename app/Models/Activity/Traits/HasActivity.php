@@ -2,6 +2,7 @@
 
 namespace App\Models\Activity\Traits;
 
+use App\Models\Account\User;
 use App\Models\Activity\Activity;
 use Illuminate\Support\Str;
 
@@ -12,6 +13,7 @@ trait HasActivity
         'old'   => null,
         'new'   => null,
     ];
+    protected ?User $user = null;
 
     abstract public function getActivityType(): string;
     abstract public function getActivitySubType(): string;
@@ -19,6 +21,13 @@ trait HasActivity
     public function getActivityProperties()
     {
         return $this->activity_properties;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function setActivityPropertyAttributes(string $action)
@@ -41,6 +50,9 @@ trait HasActivity
     {
         $url = !empty($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
         $user = auth_user();
+        if (empty($user)) {
+            $user = $this->user;
+        }
 
         /** @var Activity */
         $activity = Activity::create([

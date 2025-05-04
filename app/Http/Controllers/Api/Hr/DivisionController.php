@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\Hr;
 
 use App\Constants\Auth\PermissionCode;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Hr\DivisionImportRequest;
 use App\Http\Requests\Hr\DivisionRequest;
+use App\Http\Requests\Hr\UploadImportRequest;
 use App\Logics\Hr\DivisionLogic;
 use App\Models\Hr\Division;
 use Illuminate\Http\Request;
@@ -91,5 +93,15 @@ class DivisionController extends Controller
         }
 
         return (new DivisionLogic($division))->delete();
+    }
+
+    public function uploadImport(UploadImportRequest $request)
+    {
+        return (new DivisionLogic())->uploadImport($request);
+    }
+
+    public function import(DivisionImportRequest $request)
+    {
+        return (new DivisionLogic())->import($request);
     }
 }

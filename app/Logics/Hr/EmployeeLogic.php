@@ -79,7 +79,6 @@ class EmployeeLogic
                 ->saveActivity("Create new employee: {$this->employee->name} [{$this->employee->id}]");
 
             if ($file) {
-                Log::debug($file);
                 $file->storeAs($fileName);
             }
 
@@ -153,7 +152,6 @@ class EmployeeLogic
                 ->saveActivity("Update employee: {$this->employee->name} [{$this->employee->id}]");
 
             if ($file) {
-                Log::debug($file);
                 $file->storeAs($fileName);
 
                 if ($oldFileName && Storage::exists($oldFileName)) {
